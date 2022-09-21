@@ -77,6 +77,7 @@ def kubernetes(ctx, config):
                 "commands": [
                     "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > ocis-ci-templated.yaml",
                 ],
+                "depends_on": ["helm-lint"],
             },
             {
                 "name": "kube-lint",
@@ -86,6 +87,7 @@ def kubernetes(ctx, config):
                     "lint",
                     "ocis-ci-templated.yaml",
                 ],
+                "depends_on": ["helm-template"],
             },
         ],
         "depends_on": [],
