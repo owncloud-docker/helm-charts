@@ -1,4 +1,5 @@
 {{- if .Values.persistence.owncloud.nfs.enabled -}}
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -12,8 +13,8 @@ spec:
     server: {{ .Values.persistence.owncloud.nfs.server }}
     path: {{ .Values.persistence.owncloud.nfs.path }}
 {{end}}
----
 {{- if .Values.persistence.enabled -}}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
