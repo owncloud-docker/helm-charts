@@ -14,7 +14,7 @@ config = {
 
 def main(ctx):
     pipeline_lint = lint(ctx)
-    pipeline_conform = kubeconform(ctx, config)
+    pipeline_conform = kubernetes(ctx, config)
 
     pipeline_conform[0]["depends_on"].append(pipeline_lint[0]["name"])
 
@@ -24,7 +24,7 @@ def lint(ctx):
     lint = [{
         "kind": "pipeline",
         "type": "docker",
-        "name": "lint",
+        "name": "starlark",
         "steps": [
             {
                 "name": "starlark-format",
@@ -46,29 +46,6 @@ def lint(ctx):
                     ],
                 },
             },
-            {
-                "name": "helm lint",
-                "image": "alpine/helm:latest",
-                "commands": [
-                    "helm lint charts/owncloud",
-                ],
-            },
-            {
-                "name": "helm template",
-                "image": "alpine/helm:latest",
-                "commands": [
-                    "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kube-linter",
-                "image": "stackrox/kube-linter:latest",
-                "commands": [
-                    "/kube-linter",
-                    "lint",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
         ],
         "depends_on": [],
         "trigger": {
@@ -81,12 +58,36 @@ def lint(ctx):
 
     return lint
 
-def kubeconform(ctx, config):
+def kubernetes(ctx, config):
     pipeline = {
         "kind": "pipeline",
         "type": "docker",
-        "name": "kubeconform",
-        "steps": [],
+        "name": "kubernetes",
+        "steps": [
+            {
+                "name": "helm-lint",
+                "image": "alpine/helm:latest",
+                "commands": [
+                    "helm lint charts/owncloud",
+                ],
+            },
+            {
+                "name": "helm-template",
+                "image": "alpine/helm:latest",
+                "commands": [
+                    "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > ocis-ci-templated.yaml",
+                ],
+            },
+            {
+                "name": "kube-lint",
+                "image": "stackrox/kube-linter:latest",
+                "commands": [
+                    "/kube-linter",
+                    "lint",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+        ],
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -109,7 +110,7 @@ def kubeconform(ctx, config):
                     "-strict",
                     "ocis-ci-templated.yaml",
                 ],
-                "depends_on": ["clone"],
+                "depends_on": ["kube-lint"],
             },
         )
 
