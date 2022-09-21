@@ -1,6 +1,6 @@
 config = {
     "branches": [
-        "master",
+        "main",
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
     "kubernetesVersions": [
@@ -70,12 +70,10 @@ def linting(ctx):
         "trigger": {
             "ref": [
                 "refs/pull/**",
+                "refs/heads/main",
             ],
         },
     }
-
-    for branch in config["branches"]:
-        result["trigger"]["ref"].append("refs/heads/%s" % branch)
 
     pipelines.append(result)
 
@@ -138,12 +136,10 @@ def documentation(ctx):
         "trigger": {
             "ref": [
                 "refs/pull/**",
+                "refs/heads/main",
             ],
         },
     }
-
-    for branch in config["branches"]:
-        result["trigger"]["ref"].append("refs/heads/%s" % branch)
 
     return [result]
 
@@ -178,11 +174,9 @@ def checkStarlark():
         "trigger": {
             "ref": [
                 "refs/pull/**",
+                "refs/heads/main",
             ],
         },
     }
-
-    for branch in config["branches"]:
-        result["trigger"]["ref"].append("refs/heads/%s" % branch)
 
     return [result]
