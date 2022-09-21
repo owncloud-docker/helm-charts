@@ -13,12 +13,12 @@ config = {
 }
 
 def main(ctx):
-    pipeline_lint = lint(ctx)
+    pipeline_starlark = starlark(ctx)
     pipeline_conform = kubernetes(ctx, config)
 
-    pipeline_conform[0]["depends_on"].append(pipeline_lint[0]["name"])
+    pipeline_conform[0]["depends_on"].append(pipeline_starlark[0]["name"])
 
-    return pipeline_lint + pipeline_conform
+    return pipeline_starlark + pipeline_conform
 
 def starlark(ctx):
     return [{
@@ -117,7 +117,7 @@ def kubernetes(ctx, config):
     return [pipeline]
 
 def documentation(ctx):
-    retrun [{
+    retrun[{
         "kind": "pipeline",
         "type": "docker",
         "name": "documentation",
