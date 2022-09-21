@@ -1,0 +1,9 @@
+/charts/*/charts
+.idea
+.vscode
+.project
+.settings
+.DS_Store
+helmfile.yaml
+.drone.yml
+owncloud-ci-templated.yaml
