@@ -20,8 +20,8 @@ def main(ctx):
 
     return pipeline_lint + pipeline_conform
 
-def lint(ctx):
-    lint = [{
+def starlark(ctx):
+    return [{
         "kind": "pipeline",
         "type": "docker",
         "name": "starlark",
@@ -56,8 +56,6 @@ def lint(ctx):
         },
     }]
 
-    return lint
-
 def kubernetes(ctx, config):
     pipeline = {
         "kind": "pipeline",
@@ -75,7 +73,7 @@ def kubernetes(ctx, config):
                 "name": "helm-template",
                 "image": "alpine/helm:latest",
                 "commands": [
-                    "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > ocis-ci-templated.yaml",
+                    "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["helm-lint"],
             },
@@ -85,7 +83,7 @@ def kubernetes(ctx, config):
                 "entrypoint": [
                     "/kube-linter",
                     "lint",
-                    "ocis-ci-templated.yaml",
+                    "owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["helm-template"],
             },
@@ -110,7 +108,7 @@ def kubernetes(ctx, config):
                     "%s" % version,
                     "-summary",
                     "-strict",
-                    "ocis-ci-templated.yaml",
+                    "owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["kube-lint"],
             },
@@ -119,7 +117,7 @@ def kubernetes(ctx, config):
     return [pipeline]
 
 def documentation(ctx):
-    result = {
+    retrun [{
         "kind": "pipeline",
         "type": "docker",
         "name": "documentation",
@@ -178,44 +176,4 @@ def documentation(ctx):
                 "refs/pull/**",
             ],
         },
-    }
-
-    return [result]
-
-def checkStarlark():
-    result = {
-        "kind": "pipeline",
-        "type": "docker",
-        "name": "check-starlark",
-        "steps": [
-            {
-                "name": "format-check-starlark",
-                "image": "owncloudci/bazel-buildifier:latest",
-                "commands": [
-                    "buildifier --mode=check .drone.star",
-                ],
-            },
-            {
-                "name": "show-diff",
-                "image": "owncloudci/bazel-buildifier:latest",
-                "commands": [
-                    "buildifier --mode=fix .drone.star",
-                    "git diff",
-                ],
-                "when": {
-                    "status": [
-                        "failure",
-                    ],
-                },
-            },
-        ],
-        "depends_on": [],
-        "trigger": {
-            "ref": [
-                "refs/heads/main",
-                "refs/pull/**",
-            ],
-        },
-    }
-
-    return [result]
+    }]
