@@ -1,6 +1,6 @@
 ---
 repository:
-  name: base
+  name: helm
   description: ownCloud Server Helm chart
   topics: docker, owncloud, helm
 
@@ -10,7 +10,7 @@ repository:
   has_wiki: false
   has_downloads: false
 
-  default_branch: master
+  default_branch: main
 
   allow_squash_merge: true
   allow_merge_commit: true
@@ -50,7 +50,7 @@ teams:
     permission: admin
 
 branches:
-  - name: master
+  - name: main
     protection:
       required_pull_request_reviews:
         required_approving_review_count: 1
