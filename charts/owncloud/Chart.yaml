@@ -1,6 +1,6 @@
 apiVersion: v2
 name: owncloud
-description: ownCloud 10 Helm chart
+description: ownCloud Server Helm chart
 keywords:
   - owncloud
 maintainers:
