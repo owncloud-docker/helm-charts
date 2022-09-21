@@ -66,7 +66,7 @@ def kubernetes(ctx, config):
                 "name": "helm-lint",
                 "image": "alpine/helm:latest",
                 "commands": [
-                    "helm lint charts/owncloud",
+                    "helm lint --strict charts/owncloud",
                 ],
             },
             {
