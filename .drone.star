@@ -117,7 +117,7 @@ def kubernetes(ctx, config):
     return [pipeline]
 
 def documentation(ctx):
-    retrun[{
+    return [{
         "kind": "pipeline",
         "type": "docker",
         "name": "documentation",
