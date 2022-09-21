@@ -82,7 +82,7 @@ def kubernetes(ctx, config):
             {
                 "name": "kube-lint",
                 "image": "stackrox/kube-linter:latest",
-                "commands": [
+                "entrypoint": [
                     "/kube-linter",
                     "lint",
                     "ocis-ci-templated.yaml",
@@ -104,7 +104,7 @@ def kubernetes(ctx, config):
             {
                 "name": "kubeconform-%s" % version,
                 "image": "ghcr.io/yannh/kubeconform:master",
-                "commands": [
+                "entrypoint": [
                     "/kubeconform",
                     "-kubernetes-version",
                     "%s" % version,
