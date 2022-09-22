@@ -45,7 +45,8 @@ podAnnotations: {}
 
 podSecurityContext: {}
 
-securityContext: {}
+securityContext:
+  readOnlyRootFilesystem: true
 
 service:
   type: LoadBalancer

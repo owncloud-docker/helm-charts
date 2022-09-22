@@ -5,6 +5,8 @@ metadata:
   name: {{ include "owncloud.fullname" . }}
   labels:
     {{- include "owncloud.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/run-as-non-root : "ownCloud does not support non-root containers"
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
