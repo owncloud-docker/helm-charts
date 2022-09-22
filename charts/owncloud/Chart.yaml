@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: owncloud
 description: ownCloud Server Helm chart

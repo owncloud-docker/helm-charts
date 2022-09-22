@@ -1,7 +1,4 @@
-# Default values for owncloud.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+---
 replicaCount: 1
 
 owncloud:
@@ -34,7 +31,7 @@ image:
   repository: docker.io/owncloud/server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 10.6
+  tag: 10.10
 
 imagePullSecrets: []
 nameOverride: ""
