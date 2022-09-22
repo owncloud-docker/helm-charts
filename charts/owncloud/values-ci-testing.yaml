@@ -20,8 +20,9 @@ externalDatabase:
 persistence:
   enabled: true
   owncloud:
-    accessMode: ReadWriteOnce
-    size: 8Gi
+    accessMode:
+      - ReadWriteOnce
+    size: 20Gi
     nfs: {}
 
 redis:
@@ -29,8 +30,8 @@ redis:
 
 image:
   repository: docker.io/owncloud/server
-  pullPolicy: IfNotPresent
-  tag: 10.10
+  pullPolicy: Always
+  tag: 10.11
 
 imagePullSecrets: []
 nameOverride: ""
@@ -46,7 +47,7 @@ podAnnotations: {}
 podSecurityContext: {}
 
 securityContext:
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
 
 service:
   type: LoadBalancer
@@ -54,6 +55,7 @@ service:
 
 ingress:
   enabled: true
+  annotations: {}
   hosts:
     - host: "owncloud.chart.example"
       paths: ["/*"]
@@ -66,10 +68,10 @@ ingress:
 resources:
   limits:
     cpu: 100m
-    memory: 128Mi
+    memory: 512Mi
   requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 512Mi
 
 autoscaling:
   enabled: false
