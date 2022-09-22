@@ -17,11 +17,11 @@ For instructions on how to run it anyways the the respective chart's readme.
 
 [//]: # "Once Helm is set up properly, add the repo as follows:"
 [//]: # "```console"
-[//]: # "helm repo add ocis https://owncloud.dev/ocis/helm-charts"
+[//]: # "helm repo add owncloud https://example.com/owncloud/helm-charts"
 [//]: # "```"
-[//]: # "You can then run `helm search repo ocis` to see the charts."
+[//]: # "You can then run `helm search repo owncloud` to see the charts."
 
-Chart documentation is available in [oCIS directory](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md).
+Chart documentation is available in the [owncloud directory](https://github.com/owncloud-docker/helm/blob/main/charts/owncloud/README.md).
 
 ## Values
 

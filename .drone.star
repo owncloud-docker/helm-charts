@@ -3,7 +3,7 @@ config = {
         "main",
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
-    "kubernetesVersions": [
+    "kubernetes_versions": [
         "1.20.0",
         "1.21.0",
         "1.22.0",
@@ -13,16 +13,92 @@ config = {
 }
 
 def main(ctx):
-    # return linting(ctx) + documentation(ctx) + checkStarlark()
-    return linting(ctx) + checkStarlark()
+    pipeline_starlark = starlark(ctx)
+    pipeline_conform = kubernetes(ctx, config)
 
-def linting(ctx):
-    pipelines = []
+    pipeline_conform[0]["depends_on"].append(pipeline_starlark[0]["name"])
 
-    kubeconform_steps = []
+    return pipeline_starlark + pipeline_conform
 
-    for version in config["kubernetesVersions"]:
-        kubeconform_steps.append(
+def starlark(ctx):
+    return [{
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "starlark",
+        "steps": [
+            {
+                "name": "starlark-format",
+                "image": "owncloudci/bazel-buildifier",
+                "commands": [
+                    "buildifier --mode=check .drone.star",
+                ],
+            },
+            {
+                "name": "starlark-diff",
+                "image": "owncloudci/bazel-buildifier",
+                "commands": [
+                    "buildifier --mode=fix .drone.star",
+                    "git diff",
+                ],
+                "when": {
+                    "status": [
+                        "failure",
+                    ],
+                },
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/main",
+                "refs/pull/**",
+            ],
+        },
+    }]
+
+def kubernetes(ctx, config):
+    pipeline = {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "kubernetes",
+        "steps": [
+            {
+                "name": "helm-lint",
+                "image": "alpine/helm:latest",
+                "commands": [
+                    "helm lint --strict charts/owncloud",
+                ],
+            },
+            {
+                "name": "helm-template",
+                "image": "alpine/helm:latest",
+                "commands": [
+                    "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > owncloud-ci-templated.yaml",
+                ],
+                "depends_on": ["helm-lint"],
+            },
+            {
+                "name": "kube-lint",
+                "image": "stackrox/kube-linter:latest",
+                "entrypoint": [
+                    "/kube-linter",
+                    "lint",
+                    "owncloud-ci-templated.yaml",
+                ],
+                "depends_on": ["helm-template"],
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/master",
+                "refs/pull/**",
+            ],
+        },
+    }
+
+    for version in config["kubernetes_versions"]:
+        pipeline["steps"].append(
             {
                 "name": "kubeconform-%s" % version,
                 "image": "ghcr.io/yannh/kubeconform:master",
@@ -32,55 +108,16 @@ def linting(ctx):
                     "%s" % version,
                     "-summary",
                     "-strict",
-                    "ocis-ci-templated.yaml",
+                    "owncloud-ci-templated.yaml",
                 ],
+                "depends_on": ["kube-lint"],
             },
         )
 
-    result = {
-        "kind": "pipeline",
-        "type": "docker",
-        "name": "lint charts/owncloud",
-        "steps": [
-            {
-                "name": "helm lint",
-                "image": "alpine/helm:latest",
-                "commands": [
-                    "helm lint charts/owncloud",
-                ],
-            },
-            {
-                "name": "helm template",
-                "image": "alpine/helm:latest",
-                "commands": [
-                    "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kube-linter",
-                "image": "stackrox/kube-linter:latest",
-                "entrypoint": [
-                    "/kube-linter",
-                    "lint",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
-        ] + kubeconform_steps,
-        "depends_on": [],
-        "trigger": {
-            "ref": [
-                "refs/pull/**",
-                "refs/heads/main",
-            ],
-        },
-    }
-
-    pipelines.append(result)
-
-    return pipelines
+    return [pipeline]
 
 def documentation(ctx):
-    result = {
+    return [{
         "kind": "pipeline",
         "type": "docker",
         "name": "documentation",
@@ -88,7 +125,7 @@ def documentation(ctx):
             {
                 "name": "helm-docs-readme",
                 "image": "jnorwood/helm-docs:v1.11.0",
-                "entrypoint": [
+                "commands": [
                     "/usr/bin/helm-docs",
                     "--template-files=README.md.gotmpl",
                     "--output-file=README.md",
@@ -97,7 +134,7 @@ def documentation(ctx):
             {
                 "name": "helm-docs-values-table-adoc",
                 "image": "jnorwood/helm-docs:v1.11.0",
-                "entrypoint": [
+                "commands": [
                     "/usr/bin/helm-docs",
                     "--template-files=charts/owncloud/docs/templates/values-desc-table.adoc.gotmpl",
                     "--output-file=docs/values-desc-table.adoc",
@@ -106,7 +143,7 @@ def documentation(ctx):
             {
                 "name": "helm-docs-kube-versions-adoc",
                 "image": "jnorwood/helm-docs:v1.11.0",
-                "entrypoint": [
+                "commands": [
                     "/usr/bin/helm-docs",
                     "--template-files=charts/owncloud/docs/templates/kube-versions.adoc.gotmpl",
                     "--output-file=kube-versions.adoc",
@@ -118,7 +155,7 @@ def documentation(ctx):
                 "enviornment": {
                     "ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH": "go1.18",
                 },
-                "entrypoint": [
+                "commands": [
                     "/bin/gomplate",
                     "--file=charts/owncloud/docs/templates/values.adoc.yaml.gotmpl",
                     "--out=charts/owncloud/docs/values.adoc.yaml",
@@ -135,48 +172,8 @@ def documentation(ctx):
         "depends_on": [],
         "trigger": {
             "ref": [
-                "refs/pull/**",
                 "refs/heads/main",
+                "refs/pull/**",
             ],
         },
-    }
-
-    return [result]
-
-def checkStarlark():
-    result = {
-        "kind": "pipeline",
-        "type": "docker",
-        "name": "check-starlark",
-        "steps": [
-            {
-                "name": "format-check-starlark",
-                "image": "owncloudci/bazel-buildifier:latest",
-                "commands": [
-                    "buildifier --mode=check .drone.star",
-                ],
-            },
-            {
-                "name": "show-diff",
-                "image": "owncloudci/bazel-buildifier:latest",
-                "commands": [
-                    "buildifier --mode=fix .drone.star",
-                    "git diff",
-                ],
-                "when": {
-                    "status": [
-                        "failure",
-                    ],
-                },
-            },
-        ],
-        "depends_on": [],
-        "trigger": {
-            "ref": [
-                "refs/pull/**",
-                "refs/heads/main",
-            ],
-        },
-    }
-
-    return [result]
+    }]
