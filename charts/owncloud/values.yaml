@@ -5,6 +5,17 @@ owncloud:
   domain: owncloud.chart.example
   username: owncloud
   password: owncloud
+  volume_apps: /mnt/data/apps
+  volume_config: /mnt/data/config
+  volume_files: /mnt/data/files
+  volume_root: /mnt/data
+  oidc:
+    enabled: true
+    providerurl: test
+    logouturl: test
+    clientid: test
+    clientsecret: test
+    scopesapi: test
 
 mariadb:
   enabled: false
@@ -67,7 +78,7 @@ ingress:
       servicePort: 80
   tls:
     - hosts:
-        - "owncloud.chart.example"
+      - "owncloud.chart.example"
       secretName: owncloud
 
 resources:
