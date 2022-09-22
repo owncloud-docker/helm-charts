@@ -6,9 +6,9 @@ metadata:
   name: {{ include "owncloud.fullname" . }}
 spec:
   accessModes:
-    - ReadWriteOnce
+    {{- toYaml .Values.persistence.owncloud.accessMode | nindent 4 }}
   capacity:
-    storage: 100Gi
+    storage: {{ .Values.persistence.owncloud.size }}
   nfs:
     server: {{ .Values.persistence.owncloud.nfs.server }}
     path: {{ .Values.persistence.owncloud.nfs.path }}
@@ -21,9 +21,9 @@ metadata:
   name: {{ include "owncloud.fullname" . }}
 spec:
   accessModes:
-    - ReadWriteOnce
+    {{- toYaml .Values.persistence.owncloud.accessMode | nindent 4 }}
   resources:
     requests:
-      storage: 100Gi
+      storage: {{ .Values.persistence.owncloud.size }}
   storageClassName: standard
 {{- end -}}
