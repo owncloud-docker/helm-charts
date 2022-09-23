@@ -33,7 +33,7 @@ spec:
       initContainers:
         - name: "init-{{ .Chart.Name }}"
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ['sh', '-c', "mkdir -p {{ .Values.owncloud.volume_apps }} {{ .Values.owncloud.volume_config }} {{ .Values.owncloud.volume_config }}/configMap {{ .Values.owncloud.volume_files }}; chown -R www-data:www-data {{ .Values.owncloud.volume_root }}; ln -sf {{ .Values.owncloud.volume_config }}/configMap/docker.oidc.config.php {{ .Values.owncloud.volume_config }}/docker.oidc.config.php"]
+          command: ['sh', '-c', "mkdir -p {{ .Values.owncloud.volume_apps }} {{ .Values.owncloud.volume_config }} {{ .Values.owncloud.volume_config }}/configMap {{ .Values.owncloud.volume_files }} {{ .Values.owncloud.volume_root }}/sessions; chown -R www-data:www-data {{ .Values.owncloud.volume_root }}; ln -sf {{ .Values.owncloud.volume_config }}/configMap/configmap.config.php {{ .Values.owncloud.volume_config }}/configmap.config.php"]
           volumeMounts:
           - name: owncloud-data
             mountPath: {{ .Values.owncloud.volume_root }}
@@ -100,18 +100,6 @@ spec:
           - name: OWNCLOUD_REDIS_HOST
             value: {{ .Values.redis.host | quote }}
           {{- end }}
-          {{- if .Values.owncloud.oidc.enabled }}
-          - name: OWNCLOUD_OIDC_PROVIDER_URL
-            value: {{ .Values.owncloud.oidc.providerurl | quote }}
-          - name: OWNCLOUD_OIDC_POST_LOGOUT_REDIRECT_URL
-            value: {{ .Values.owncloud.oidc.logouturl | quote }}
-          - name: OWNCLOUD_OIDC_CLIENT_ID
-            value: {{ .Values.owncloud.oidc.clientid | quote }}
-          - name: OWNCLOUD_OIDC_CLIENT_SECRET
-            value: {{ .Values.owncloud.oidc.clientsecret | quote }}
-          - name: OWNCLOUD_OIDC_SCOPES_API
-            value: {{ .Values.owncloud.oidc.scopesapi | quote }}
-          {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -141,11 +129,8 @@ spec:
           volumeMounts:
           - name: owncloud-data
             mountPath: {{ .Values.owncloud.volume_root }}
-          {{- if .Values.owncloud.oidc.enabled }}
           - name: config-volume
-            mountPath: {{ .Values.owncloud.volume_config }}/docker.oidc.config.php
-            subPath: docker.oidc.config.php
-          {{- end }}
+            mountPath: {{ .Values.owncloud.volume_config }}/configMap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -162,8 +147,6 @@ spec:
         - name: owncloud-data
           persistentVolumeClaim:
             claimName: {{ include "owncloud.fullname" . }}
-        {{- if .Values.owncloud.oidc.enabled }}
         - name: config-volume
           configMap:
             name: owncloud-config
-        {{- end }}

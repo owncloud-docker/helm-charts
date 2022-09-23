@@ -1,12 +1,10 @@
-{{- if .Values.owncloud.oidc.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: owncloud-config
   namespace: default
 data:
-  docker.oidc.config.php: |
+  configmap.config.php: |
     <?php
     $CONFIG = json_decode('{{ toPrettyJson .Values.owncloud.configExtra | nindent 4 }}
     ', true);
-{{- end }}
