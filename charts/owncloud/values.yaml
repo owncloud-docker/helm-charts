@@ -16,6 +16,19 @@ owncloud:
     clientid: test
     clientsecret: test
     scopesapi: test
+  configExtra:
+    openid-connect:
+      auto-provision:
+        enabled: true
+        email-claim: "email"
+        display-name-claim: "name"
+      provider-url: "https://example.com"
+      client-id: "myclientid"
+      client-secret: "mysecret"
+      autoRedirectOnLoginPage: false
+      mode: "email"
+      scopes: []
+      use-access-token-payload-for-user-info: false
 
 mariadb:
   enabled: false
@@ -81,13 +94,7 @@ ingress:
       - "owncloud.chart.example"
       secretName: owncloud
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 512Mi
+resources: {}
 
 autoscaling:
   enabled: false
