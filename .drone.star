@@ -125,7 +125,7 @@ def deployments(ctx):
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
-        "steps": wait(ctx),
+        "steps": wait(ctx) + install(ctx),
         "services": [
             {
                 "name": "k3d",
@@ -152,6 +152,17 @@ def deployments(ctx):
     }
 
     return [pipeline]
+
+def install(ctx):
+    return [{
+        {
+            "name": "helm-install",
+            "image": "owncloudci/alpine:latest",
+            "commands": [
+                "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 300 owncloud charts/owncloud/",
+            ],
+        },
+    }]
 
 def documentation(ctx):
     return [{
