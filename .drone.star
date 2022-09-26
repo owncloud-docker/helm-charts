@@ -139,7 +139,7 @@ def deployments(ctx):
                     "k3d kubeconfig get drone > kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
                     "chmod 0600 kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
                     "printf '@@@@@@@@@@@@@@@@@@@@@@@\n@@@@ k3d is ready @@@@\n@@@@@@@@@@@@@@@@@@@@@@@\n'",
-                    "kubectl get events -Aw --sort-by=.metadata.creationTimestamp",
+                    "kubectl get events -Aw",
                 ],
             },
         ],
