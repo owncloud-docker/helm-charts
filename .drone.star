@@ -74,6 +74,7 @@ def kubernetes(ctx, config):
                 "image": "alpine/helm:latest",
                 "commands": [
                     "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > owncloud-ci-templated.yaml",
+                    "cat owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["helm-lint"],
             },

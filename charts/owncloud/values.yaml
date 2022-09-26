@@ -84,7 +84,7 @@ ingress:
       servicePort: 80
   tls:
     - hosts:
-      - "owncloud.chart.example"
+        - "owncloud.chart.example"
       secretName: owncloud
 
 resources: {}
