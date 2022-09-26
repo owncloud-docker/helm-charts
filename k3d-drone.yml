@@ -1,6 +1,7 @@
 apiVersion: k3d.io/v1alpha4
 kind: Simple
-name: drone
+metadata:
+  name: drone
 servers: 1
 options:
   k3s:
