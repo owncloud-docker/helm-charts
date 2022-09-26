@@ -148,8 +148,10 @@ spec:
       {{- end }}
       volumes:
         - name: owncloud-data
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ include "owncloud.fullname" . }}
+          {{- end }}
         - name: config-volume
           configMap:
             name: owncloud-config

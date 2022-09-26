@@ -136,9 +136,10 @@ def deployments(ctx):
                     "until docker ps 2>&1 > /dev/null; do sleep 1s; done",
                     "k3d cluster create --config k3d-drone.yaml --api-port k3d:6445",
                     "until kubectl get deployment coredns -n kube-system -o go-template='{{.status.availableReplicas}}' | grep -v -e '<no value>'; do sleep 1s; done",
-                    "k3d kubeconfig get drone > kubeconfig-$${DRONE_BUILD_STARTED}.yaml",
+                    "k3d kubeconfig get drone > kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+                    "chmod 0600 kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
                     "printf '@@@@@@@@@@@@@@@@@@@@@@@\n@@@@ k3d is ready @@@@\n@@@@@@@@@@@@@@@@@@@@@@@\n'",
-                    "sleep infinty",
+                    "kubectl get events -Aw --sort-by=.metadata.creationTimestamp",
                 ],
             },
         ],
@@ -158,7 +159,7 @@ def install(ctx):
         "name": "helm-install",
         "image": "owncloudci/alpine:latest",
         "commands": [
-            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_STARTED}.yaml",
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
         ],
     }]
@@ -229,10 +230,11 @@ def wait(config):
     return [{
         "name": "wait",
         "image": "bitnami/kubectl:1.25",
+        "user": "root",
         "commands": [
-            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_STARTED}.yaml",
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "until test -f $${KUBECONFIG}; do sleep 1s; done",
             "kubectl config view",
-            "kubectl get pods --all-namespaces",
+            "kubectl get pods -A",
         ],
     }]

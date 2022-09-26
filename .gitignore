@@ -7,3 +7,5 @@
 helmfile.yaml
 .drone.yml
 owncloud-ci-templated.yaml
+kubeconfig.yaml
+nohup.out
