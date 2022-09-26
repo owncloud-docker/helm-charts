@@ -87,6 +87,7 @@ ingress:
         - "owncloud.chart.example"
       secretName: owncloud
 
+initResources: {}
 resources: {}
 
 autoscaling:

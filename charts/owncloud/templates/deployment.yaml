@@ -35,8 +35,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ['sh', '-c', "mkdir -p {{ .Values.owncloud.volume_apps }} {{ .Values.owncloud.volume_config }} {{ .Values.owncloud.volume_config }}/configMap {{ .Values.owncloud.volume_files }} {{ .Values.owncloud.volume_root }}/sessions; chown -R www-data:www-data {{ .Values.owncloud.volume_root }}; ln -sf {{ .Values.owncloud.volume_config }}/configMap/configmap.config.php {{ .Values.owncloud.volume_config }}/configmap.config.php"]
           volumeMounts:
-          - name: owncloud-data
-            mountPath: {{ .Values.owncloud.volume_root }}
+            - name: owncloud-data
+              mountPath: {{ .Values.owncloud.volume_root }}
+          resources:
+            {{- toYaml .Values.initResources | nindent 12 }}
 
       containers:
         - name: {{ .Chart.Name }}
@@ -45,61 +47,61 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          - name: OWNCLOUD_DOMAIN
-            value: {{ .Values.owncloudDomain | quote }}
-          - name: OWNCLOUD_SKIP_CHMOD
-            value: "true"
-          - name: OWNCLOUD_SKIP_CHOWN
-            value: "true"
-          - name: OWNCLOUD_VOLUME_APPS
-            value: {{ .Values.owncloud.volume_apps | quote }}
-          - name: OWNCLOUD_VOLUME_CONFIG
-            value: {{ .Values.owncloud.volume_config | quote }}
-          - name: OWNCLOUD_VOLUME_FILES
-            value: {{ .Values.owncloud.volume_files | quote }}
-          - name: OWNCLOUD_VOLUME_ROOT
-            value: {{ .Values.owncloud.volume_root | quote }}
-          - name: OWNCLOUD_ADMIN_USERNAME
-            value: {{ .Values.owncloud.username | quote }}
-          - name: OWNCLOUD_ADMIN_PASSWORD
-            value: {{ .Values.owncloud.password | quote }}
-          {{- if .Values.mariadb.enabled }}
-          - name: MARIADB_HOST
-            value: {{ template "owncloud.mariadb.fullname" . }}
-          - name: MARIADB_PORT_NUMBER
-            value: "3306"
-          - name: OWNCLOUD_DATABASE_NAME
-            value: {{ .Values.mariadb.db.name | quote }}
-          - name: OWNCLOUD_DATABASE_USER
-            value: {{ .Values.mariadb.db.user | quote }}
-          - name: OWNCLOUD_DATABASE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ template "owncloud.mariadb.fullname" . }}
-                key: mariadb-password
-          {{- else }}
-          - name: OWNCLOUD_DB_TYPE
-            value: {{ .Values.externalDatabase.type | quote }}
-          - name: OWNCLOUD_DB_HOST
-            value: {{ .Values.externalDatabase.host | quote }}
-          - name: OWNCLOUD_DATABASE_PORT_NUMBER
-            value: {{ .Values.externalDatabase.port | quote }}
-          - name: OWNCLOUD_DB_NAME
-            value: {{ .Values.externalDatabase.name | quote }}
-          - name: OWNCLOUD_DB_USERNAME
-            value: {{ .Values.externalDatabase.user | quote }}
-          - name: OWNCLOUD_DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ printf "%s-%s" .Release.Name "externaldb" }}
-                key: db-password
-          {{- end }}
-          {{- if .Values.redis.enabled }}
-          - name: OWNCLOUD_REDIS_ENABLED
-            value: true
-          - name: OWNCLOUD_REDIS_HOST
-            value: {{ .Values.redis.host | quote }}
-          {{- end }}
+            - name: OWNCLOUD_DOMAIN
+              value: {{ .Values.owncloudDomain | quote }}
+            - name: OWNCLOUD_SKIP_CHMOD
+              value: "true"
+            - name: OWNCLOUD_SKIP_CHOWN
+              value: "true"
+            - name: OWNCLOUD_VOLUME_APPS
+              value: {{ .Values.owncloud.volume_apps | quote }}
+            - name: OWNCLOUD_VOLUME_CONFIG
+              value: {{ .Values.owncloud.volume_config | quote }}
+            - name: OWNCLOUD_VOLUME_FILES
+              value: {{ .Values.owncloud.volume_files | quote }}
+            - name: OWNCLOUD_VOLUME_ROOT
+              value: {{ .Values.owncloud.volume_root | quote }}
+            - name: OWNCLOUD_ADMIN_USERNAME
+              value: {{ .Values.owncloud.username | quote }}
+            - name: OWNCLOUD_ADMIN_PASSWORD
+              value: {{ .Values.owncloud.password | quote }}
+            {{- if .Values.mariadb.enabled }}
+            - name: MARIADB_HOST
+              value: {{ template "owncloud.mariadb.fullname" . }}
+            - name: MARIADB_PORT_NUMBER
+              value: "3306"
+            - name: OWNCLOUD_DATABASE_NAME
+              value: {{ .Values.mariadb.db.name | quote }}
+            - name: OWNCLOUD_DATABASE_USER
+              value: {{ .Values.mariadb.db.user | quote }}
+            - name: OWNCLOUD_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "owncloud.mariadb.fullname" . }}
+                  key: mariadb-password
+            {{- else }}
+            - name: OWNCLOUD_DB_TYPE
+              value: {{ .Values.externalDatabase.type | quote }}
+            - name: OWNCLOUD_DB_HOST
+              value: {{ .Values.externalDatabase.host | quote }}
+            - name: OWNCLOUD_DATABASE_PORT_NUMBER
+              value: {{ .Values.externalDatabase.port | quote }}
+            - name: OWNCLOUD_DB_NAME
+              value: {{ .Values.externalDatabase.name | quote }}
+            - name: OWNCLOUD_DB_USERNAME
+              value: {{ .Values.externalDatabase.user | quote }}
+            - name: OWNCLOUD_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ printf "%s-%s" .Release.Name "externaldb" }}
+                  key: db-password
+            {{- end }}
+            {{- if .Values.redis.enabled }}
+            - name: OWNCLOUD_REDIS_ENABLED
+              value: true
+            - name: OWNCLOUD_REDIS_HOST
+              value: {{ .Values.redis.host | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -109,8 +111,8 @@ spec:
               path: /status.php
               port: http
               httpHeaders:
-              - name: Host
-                value: {{ .Values.owncloud.domain | quote }}
+                - name: Host
+                  value: {{ .Values.owncloud.domain | quote }}
             initialDelaySeconds: 120
             timeoutSeconds: 5
             failureThreshold: 6
@@ -119,18 +121,18 @@ spec:
               path: /status.php
               port: http
               httpHeaders:
-              - name: Host
-                value: {{ .Values.owncloud.domain | quote }}
+                - name: Host
+                  value: {{ .Values.owncloud.domain | quote }}
             initialDelaySeconds: 30
             timeoutSeconds: 3
             periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          - name: owncloud-data
-            mountPath: {{ .Values.owncloud.volume_root }}
-          - name: config-volume
-            mountPath: {{ .Values.owncloud.volume_config }}/configMap
+            - name: owncloud-data
+              mountPath: {{ .Values.owncloud.volume_root }}
+            - name: config-volume
+              mountPath: {{ .Values.owncloud.volume_config }}/configMap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

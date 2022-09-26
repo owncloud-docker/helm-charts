@@ -82,6 +82,14 @@ ingress:
         - "owncloud.chart.example"
       secretName: owncloud
 
+initResources:
+  limits:
+    cpu: 100m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 512Mi
+
 resources:
   limits:
     cpu: 100m
