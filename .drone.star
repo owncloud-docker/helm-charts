@@ -135,7 +135,7 @@ def deployments(ctx):
                 "commands": [
                     "nohup dockerd-entrypoint.sh &",
                     "until docker ps 2>&1 > /dev/null; do sleep 1s; done",
-                    "k3d cluster create --config k3d-drone.yml --api-port k3dsvc:6445",
+                    "k3d cluster create --config k3d-drone.yml --api-port k3d:6445",
                     "until kubectl get deployment coredns -n kube-system -o go-template='{{.status.availableReplicas}}' | grep -v -e '<no value>'; do sleep 1s; done",
                     "k3d kubeconfig get drone > kubeconfig-$${DRONE_BUILD_STARTED}.yaml",
                     "printf '@@@@@@@@@@@@@@@@@@@@@@@\n@@@@ k3d is ready @@@@\n@@@@@@@@@@@@@@@@@@@@@@@\n'",
