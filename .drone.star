@@ -158,6 +158,7 @@ def install(ctx):
         "name": "helm-install",
         "image": "owncloudci/alpine:latest",
         "commands": [
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_STARTED}.yaml",
             "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
         ],
     }]
