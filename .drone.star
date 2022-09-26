@@ -4,7 +4,6 @@ config = {
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
     "kubernetes_versions": [
-        "1.20.0",
         "1.21.0",
         "1.22.0",
         "1.23.0",
@@ -69,14 +68,14 @@ def kubernetes(ctx, config):
         "steps": [
             {
                 "name": "helm-lint",
-                "image": "alpine/helm:latest",
+                "image": "owncloudci/alpine:latest",
                 "commands": [
                     "helm lint --strict charts/owncloud",
                 ],
             },
             {
                 "name": "helm-template",
-                "image": "alpine/helm:latest",
+                "image": "owncloudci/alpine:latest",
                 "commands": [
                     "helm template charts/owncloud -f charts/owncloud/values-ci-testing.yaml > owncloud-ci-templated.yaml",
                 ],
