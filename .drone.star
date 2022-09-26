@@ -144,6 +144,12 @@ def deployments(ctx):
             },
         ],
         "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/main",
+                "refs/pull/**",
+            ],
+        },
     }
 
     return [pipeline]
