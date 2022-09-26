@@ -155,13 +155,11 @@ def deployments(ctx):
 
 def install(ctx):
     return [{
-        {
-            "name": "helm-install",
-            "image": "owncloudci/alpine:latest",
-            "commands": [
-                "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 300 owncloud charts/owncloud/",
-            ],
-        },
+        "name": "helm-install",
+        "image": "owncloudci/alpine:latest",
+        "commands": [
+            "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 300 owncloud charts/owncloud/",
+        ],
     }]
 
 def documentation(ctx):
