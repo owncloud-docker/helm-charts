@@ -9,16 +9,21 @@ config = {
         "1.22.0",
         "1.23.0",
         "1.24.0",
+        "1.25.0",
     ],
 }
 
 def main(ctx):
     pipeline_starlark = starlark(ctx)
-    pipeline_conform = kubernetes(ctx, config)
 
-    pipeline_conform[0]["depends_on"].append(pipeline_starlark[0]["name"])
+    pipeline_kubernetes = kubernetes(ctx, config)
+    pipeline_kubernetes[0]["depends_on"].append(pipeline_starlark[0]["name"])
 
-    return pipeline_starlark + pipeline_conform
+    pipeline_deployments = deployments(ctx)
+    for pipeline in pipeline_deployments:
+        pipeline["depends_on"].append(pipeline_kubernetes[0]["name"])
+
+    return pipeline_starlark + pipeline_kubernetes + pipeline_deployments
 
 def starlark(ctx):
     return [{
@@ -116,6 +121,33 @@ def kubernetes(ctx, config):
 
     return [pipeline]
 
+def deployments(ctx):
+    pipeline = {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "k3d",
+        "steps": wait(ctx),
+        "services": [
+            {
+                "name": "k3d",
+                "image": "ghcr.io/k3d-io/k3d:5.4.6-dind",
+                "privileged": True,
+                "commands": [
+                    "nohup dockerd-entrypoint.sh &",
+                    "until docker ps 2>&1 > /dev/null; do sleep 1s; done",
+                    "k3d cluster create --config k3d-drone.yml --api-port k3dsvc:6445",
+                    "until kubectl get deployment coredns -n kube-system -o go-template='{{.status.availableReplicas}}' | grep -v -e '<no value>'; do sleep 1s; done",
+                    "k3d kubeconfig get drone > kubeconfig-$${DRONE_BUILD_STARTED}.yaml",
+                    "printf '@@@@@@@@@@@@@@@@@@@@@@@\n@@@@ k3d is ready @@@@\n@@@@@@@@@@@@@@@@@@@@@@@\n'",
+                    "sleep infinty",
+                ],
+            },
+        ],
+        "depends_on": [],
+    }
+
+    return [pipeline]
+
 def documentation(ctx):
     return [{
         "kind": "pipeline",
@@ -176,4 +208,16 @@ def documentation(ctx):
                 "refs/pull/**",
             ],
         },
+    }]
+
+def wait(config):
+    return [{
+        "name": "wait",
+        "image": "bitnami/kubectl:1.25",
+        "commands": [
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_STARTED}.yml",
+            "until test -f $${KUBECONFIG}; do sleep 1s; done",
+            "kubectl config view",
+            "kubectl get pods --all-namespaces",
+        ],
     }]

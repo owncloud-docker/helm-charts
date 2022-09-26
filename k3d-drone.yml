@@ -1,0 +1,19 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+name: drone
+servers: 1
+options:
+  k3s:
+    extraArgs:
+      - arg: --tls-san=k3dsvc
+        nodeFilters:
+          - server:*
+      - arg: --disable=servicelb
+        nodeFilters:
+          - server:*
+      - arg: --disable=local-storage
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
