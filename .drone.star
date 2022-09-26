@@ -158,7 +158,7 @@ def install(ctx):
         "name": "helm-install",
         "image": "owncloudci/alpine:latest",
         "commands": [
-            "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 300 owncloud charts/owncloud/",
+            "helm install -f charts/owncloud/values-ci-testing.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
         ],
     }]
 
