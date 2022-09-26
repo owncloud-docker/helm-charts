@@ -6,5 +6,8 @@ metadata:
 data:
   configmap.config.php: |
     <?php
-    $CONFIG = json_decode('{{ toPrettyJson .Values.owncloud.configExtra | nindent 4 }}
-    ', true);
+    {{- if .Values.owncloud.configExtra }}
+    $CONFIG = json_decode('{{- toPrettyJson .Values.owncloud.configExtra | nindent 4 }}', true);
+    {{- else }}
+    $CONFIG = [];
+    {{- end }}
