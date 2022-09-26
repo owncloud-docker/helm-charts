@@ -5,6 +5,25 @@ owncloud:
   domain: owncloud.chart.example
   username: owncloud
   password: owncloud
+  volume_apps: /mnt/data/apps
+  volume_config: /mnt/data/config
+  volume_files: /mnt/data/files
+  volume_root: /mnt/data
+  configExtra: {}
+  # configExtra:
+  #   openid-connect:
+  #     auto-provision:
+  #       enabled: true
+  #       email-claim: "email"
+  #       display-name-claim: "given_name"
+  #       picture-claim: "picture"
+  #     provider-url: "https://example.com"
+  #     client-id: "myclientid"
+  #     client-secret: "mysecret"
+  #     autoRedirectOnLoginPage: false
+  #     mode: "email"
+  #     scopes: []
+  #     use-access-token-payload-for-user-info: false
 
 mariadb:
   enabled: false
@@ -70,13 +89,8 @@ ingress:
         - "owncloud.chart.example"
       secretName: owncloud
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 512Mi
+initResources: {}
+resources: {}
 
 autoscaling:
   enabled: false
