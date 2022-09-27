@@ -10,7 +10,7 @@ image:
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
-# -- List of references to secrets in the same namespace to use for pulling images from a priavte registry.
+# -- List of references to secrets in the same namespace to use for pulling images from a private registry.
 imagePullSecrets: {}
 
 nameOverride: ""
@@ -81,7 +81,7 @@ podAnnotations: {}
 podSecurityContext: {}
 # -- Security settings for the Container.
 securityContext:
-  # -- Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud.
+  # -- Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud 10.
   readOnlyRootFilesystem: false
 
 service:

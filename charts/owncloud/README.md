@@ -33,7 +33,7 @@ Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
 | image.repository | string | `"docker.io/owncloud/server"` | Image repository |
 | image.sha | string | `""` | Image sha/digest (optional). |
 | image.tag | string | The `appVersion` of the Chart. | Image tag. |
-| imagePullSecrets | object | `{}` | List of references to secrets in the same namespace to use for pulling images from a priavte registry. |
+| imagePullSecrets | object | `{}` | List of references to secrets in the same namespace to use for pulling images from a private registry. |
 | ingress.annotations | object | `{}` | Ingress annotations. |
 | ingress.enabled | bool | `false` | Enables the Ingress. |
 | ingress.ingressClassName | string | `""` | Ingress class to use. Uses the default ingress class if not set. |
@@ -61,7 +61,7 @@ Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
 | resources | object | `{}` | Resources to apply to all services. |
 | securityContext | object | `{"readOnlyRootFilesystem":false}` | Security settings for the Container. |
-| securityContext.readOnlyRootFilesystem | bool | `false` | Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud. |
+| securityContext.readOnlyRootFilesystem | bool | `false` | Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud 10. |
 | service.port | int | `8080` |  |
 | service.type | string | `"LoadBalancer"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account. |
