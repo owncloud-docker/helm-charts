@@ -175,38 +175,9 @@ def documentation(ctx):
                 "image": "jnorwood/helm-docs:v1.11.0",
                 "commands": [
                     "/usr/bin/helm-docs",
+                    "--badge-style=flat",
                     "--template-files=README.md.gotmpl",
                     "--output-file=README.md",
-                ],
-            },
-            {
-                "name": "helm-docs-values-table-adoc",
-                "image": "jnorwood/helm-docs:v1.11.0",
-                "commands": [
-                    "/usr/bin/helm-docs",
-                    "--template-files=charts/owncloud/docs/templates/values-desc-table.adoc.gotmpl",
-                    "--output-file=docs/values-desc-table.adoc",
-                ],
-            },
-            {
-                "name": "helm-docs-kube-versions-adoc",
-                "image": "jnorwood/helm-docs:v1.11.0",
-                "commands": [
-                    "/usr/bin/helm-docs",
-                    "--template-files=charts/owncloud/docs/templates/kube-versions.adoc.gotmpl",
-                    "--output-file=kube-versions.adoc",
-                ],
-            },
-            {
-                "name": "gomplate-values-adoc",
-                "image": "hairyhenderson/gomplate:v3.10.0-alpine",
-                "enviornment": {
-                    "ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH": "go1.18",
-                },
-                "commands": [
-                    "/bin/gomplate",
-                    "--file=charts/owncloud/docs/templates/values.adoc.yaml.gotmpl",
-                    "--out=charts/owncloud/docs/values.adoc.yaml",
                 ],
             },
             {
