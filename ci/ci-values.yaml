@@ -35,12 +35,7 @@ externalDatabase:
   password: owncloud
 
 persistence:
-  enabled: true
-  owncloud:
-    accessMode:
-      - ReadWriteOnce
-    size: 20Gi
-    nfs: {}
+  enabled: false
 
 replicas: 1
 
