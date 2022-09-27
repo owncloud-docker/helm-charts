@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/drone/build/owncloud-docker/helm-charts?logo=drone&server=https%3A%2F%2Fdrone.owncloud.com)](https://drone.owncloud.com/owncloud-docker/helm-charts)
 [![GitHub contributors](https://img.shields.io/github/contributors/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/graphs/contributors)
 [![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/helm-charts)
-[![License: MIT](https://img.shields.io/github/license/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/blob/main/LICENSE)
 
 The code is provided as-is with no warranties.
 
@@ -19,7 +19,7 @@ You can then run `helm search repo owncloud` to see the charts. The Chart docume
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/owncloud-docker/helm-charts/blob/master/LICENSE) file for details.
+This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/owncloud-docker/helm-charts/blob/main/LICENSE) file for details.
 
 ## Copyright
 
