@@ -15,14 +15,17 @@ config = {
 def main(ctx):
     pipeline_starlark = starlark(ctx)
 
+    pipeline_docs = documentation(ctx)
+    pipeline_docs[0]["depends_on"].append(pipeline_starlark[0]["name"])
+
     pipeline_kubernetes = kubernetes(ctx, config)
-    pipeline_kubernetes[0]["depends_on"].append(pipeline_starlark[0]["name"])
+    pipeline_kubernetes[0]["depends_on"].append(pipeline_docs[0]["name"])
 
     pipeline_deployments = deployments(ctx)
     for pipeline in pipeline_deployments:
         pipeline["depends_on"].append(pipeline_kubernetes[0]["name"])
 
-    return pipeline_starlark + pipeline_kubernetes + pipeline_deployments
+    return pipeline_starlark + pipeline_docs + pipeline_kubernetes + pipeline_deployments
 
 def starlark(ctx):
     return [{
@@ -68,14 +71,14 @@ def kubernetes(ctx, config):
         "steps": [
             {
                 "name": "helm-lint",
-                "image": "owncloudci/alpine:latest",
+                "image": "owncloudci/alpine",
                 "commands": [
                     "helm lint --strict charts/owncloud",
                 ],
             },
             {
                 "name": "helm-template",
-                "image": "owncloudci/alpine:latest",
+                "image": "owncloudci/alpine",
                 "commands": [
                     "helm template charts/owncloud -f ci/ci-values.yaml > ci/owncloud-ci-templated.yaml",
                 ],
@@ -83,7 +86,7 @@ def kubernetes(ctx, config):
             },
             {
                 "name": "kube-lint",
-                "image": "stackrox/kube-linter:latest",
+                "image": "stackrox/kube-linter",
                 "entrypoint": [
                     "/kube-linter",
                     "lint",
@@ -105,7 +108,7 @@ def kubernetes(ctx, config):
         pipeline["steps"].append(
             {
                 "name": "kubeconform-%s" % version,
-                "image": "ghcr.io/yannh/kubeconform:master",
+                "image": "ghcr.io/yannh/kubeconform",
                 "entrypoint": [
                     "/kubeconform",
                     "-kubernetes-version",
@@ -121,7 +124,7 @@ def kubernetes(ctx, config):
     return [pipeline]
 
 def deployments(ctx):
-    pipeline = {
+    return [{
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
@@ -150,14 +153,12 @@ def deployments(ctx):
                 "refs/pull/**",
             ],
         },
-    }
-
-    return [pipeline]
+    }]
 
 def install(ctx):
     return [{
         "name": "helm-install",
-        "image": "owncloudci/alpine:latest",
+        "image": "owncloudci/alpine",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "helm install -f ci/ci-values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
@@ -172,7 +173,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "jnorwood/helm-docs:v1.11.0",
+                "image": "jnorwood/helm-docs",
                 "commands": [
                     "/usr/bin/helm-docs",
                     "--badge-style=flat",

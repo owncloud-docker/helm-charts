@@ -1,15 +1,9 @@
-# renovate: datasource=github-releases depName=norwoodj/helm-docs
-HELM_DOCS_PACKAGE_VERSION := v1.10.0
-# renovate: datasource=github-releases depName=/stackrox/kube-linter
-KUBE_LINTER_PACKAGE_VERSION := v0.4.0
-# renovate: datasource=github-releases depName=yannh/kubeconform
-KUBECONFORM_PACKAGE_VERSION := v0.4.13
-
+HELM_DOCS_PACKAGE_VERSION := latest
+KUBE_LINTER_PACKAGE_VERSION := latest
+KUBECONFORM_PACKAGE_VERSION := latest
 
 SHELL := bash
-
 GO ?= go
-CWD ?= $(shell pwd)
 
 HELM_DOCS_PACKAGE ?= github.com/norwoodj/helm-docs/cmd/helm-docs@$(HELM_DOCS_PACKAGE_VERSION)
 KUBE_LINTER_PACKAGE ?= golang.stackrox.io/kube-linter/cmd/kube-linter@$(KUBE_LINTER_PACKAGE_VERSION)
