@@ -14,6 +14,7 @@ config = {
 
 def main(ctx):
     pipeline_starlark = starlark(ctx)
+    pipeline_release = release(ctx)
 
     pipeline_docs = documentation(ctx)
     pipeline_docs[0]["depends_on"].append(pipeline_starlark[0]["name"])
@@ -24,8 +25,9 @@ def main(ctx):
     pipeline_deployments = deployments(ctx)
     for pipeline in pipeline_deployments:
         pipeline["depends_on"].append(pipeline_kubernetes[0]["name"])
+        pipeline_release[0]["depends_on"].append(pipeline["name"])
 
-    return pipeline_starlark + pipeline_docs + pipeline_kubernetes + pipeline_deployments
+    return pipeline_starlark + pipeline_docs + pipeline_kubernetes + pipeline_deployments + pipeline_release
 
 def starlark(ctx):
     return [{
@@ -174,11 +176,8 @@ def documentation(ctx):
             {
                 "name": "helm-docs-readme",
                 "image": "jnorwood/helm-docs",
-                "entrypoint": [
-                    "/usr/bin/helm-docs",
-                    "--badge-style=flat",
-                    "--template-files=ci/README.md.gotmpl",
-                    "--output-file=README.md",
+                "commands": [
+                    "/usr/bin/helm-docs --badge-style=flat --template-files=ci/README.md.gotmpl --output-file=README.md",
                 ],
             },
             {
@@ -193,6 +192,89 @@ def documentation(ctx):
         "trigger": {
             "ref": [
                 "refs/heads/main",
+                "refs/pull/**",
+            ],
+        },
+    }]
+
+def release(ctx):
+    return [{
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "release",
+        "steps": [
+            {
+                "name": "changelog",
+                "image": "thegeeklab/git-chglog",
+                "commands": [
+                    "git fetch -tq",
+                    "git-chglog --no-color --no-emoji %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
+                    "git-chglog --no-color --no-emoji -o CHANGELOG.md %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
+                ],
+            },
+            {
+                "name": "helmpack-package",
+                "image": "quay.io/helmpack/chart-releaser",
+                "commands": [
+                    "sed -i 's/version: 0.0.0-devel/version: %s/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "0.0.0-devel"),
+                    "cr package charts/owncloud/",
+                ],
+            },
+            {
+                "name": "helmpack-upload",
+                "image": "quay.io/helmpack/chart-releaser",
+                "environment": {
+                    "CR_TOKEN": {
+                        "from_secret": "github_token",
+                    },
+                },
+                "commands": [
+                    "cr upload charts/owncloud/",
+                ],
+                "when": {
+                    "ref": [
+                        "refs/tags/**",
+                    ],
+                },
+            },
+            {
+                "name": "helmpack-index",
+                "image": "quay.io/helmpack/chart-releaser",
+                "commands": [
+                    "cr index",
+                    "cp dist/docs/README.md",
+                ],
+                "when": {
+                    "ref": [
+                        "refs/tags/**",
+                    ],
+                },
+            },
+            {
+                "name": "pages",
+                "image": "plugins/gh-pages",
+                "settings": {
+                    "pages_directory": "dist/docs/",
+                    "password": {
+                        "from_secret": "github_token",
+                    },
+                    "target_branch": "gh_pages",
+                    "username": {
+                        "from_secret": "github_username",
+                    },
+                },
+                "when": {
+                    "ref": [
+                        "refs/tags/**",
+                    ],
+                },
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/main",
+                "refs/tags/**",
                 "refs/pull/**",
             ],
         },

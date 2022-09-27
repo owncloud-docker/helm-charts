@@ -25,20 +25,6 @@ owncloud:
   volume_files: /mnt/data/files
   volume_root: /mnt/data
   configExtra: {}
-  # configExtra:
-  #   openid-connect:
-  #     auto-provision:
-  #       enabled: true
-  #       email-claim: "email"
-  #       display-name-claim: "given_name"
-  #       picture-claim: "picture"
-  #     provider-url: "https://example.com"
-  #     client-id: "myclientid"
-  #     client-secret: "mysecret"
-  #     autoRedirectOnLoginPage: false
-  #     mode: "email"
-  #     scopes: []
-  #     use-access-token-payload-for-user-info: false
 
 mariadb:
   enabled: false

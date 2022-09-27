@@ -1,6 +1,8 @@
 # owncloud
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat) ![AppVersion: 10.11.0](https://img.shields.io/badge/AppVersion-10.11.0-informational?style=flat)
+![Helm Version](https://img.shields.io/github/v/release/owncloud-docker/helm-charts?label=Version)
+![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat)
+![AppVersion: 10.11.0](https://img.shields.io/badge/AppVersion-10.11.0-informational?style=flat)
 
 ownCloud Server Helm chart
 **Homepage:** <https://owncloud.com/>
@@ -12,6 +14,39 @@ ownCloud Server Helm chart
 ## Requirements
 
 Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
+
+## Usage
+
+### Get Repo Info
+
+```Shell
+helm repo add owncloud https://owncloud-docker.github.io/helm-charts
+helm repo update
+```
+
+_See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation._
+
+### Installing the Chart
+
+To install the chart with the release name `my-release`:
+
+```Shell
+helm install my-release owncloud/owncloud
+```
+
+### Uninstalling the Chart
+
+To uninstall/delete the my-release deployment:
+
+```Shell
+helm delete my-release
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+### Upgrading an existing Release to a new major version
+
+A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an incompatible breaking change needing manual actions.
 
 ## Values
 
