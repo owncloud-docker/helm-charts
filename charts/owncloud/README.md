@@ -6,7 +6,7 @@ ownCloud Server Helm chart
 **Homepage:** <https://owncloud.com/>
 ## Source Code
 
-* <https://github.com/owncloud-docker/helm>
+* <https://github.com/owncloud-docker/helm-charts>
 * <https://github.com/owncloud-docker/server>
 * <https://github.com/owncloud/core>
 ## Requirements

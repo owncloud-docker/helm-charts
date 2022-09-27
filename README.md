@@ -1,9 +1,9 @@
 # ownCloud: Helm Charts
 
-[![Build Status](https://img.shields.io/drone/build/owncloud-docker/helm?logo=drone&server=https%3A%2F%2Fdrone.owncloud.com)](https://drone.owncloud.com/owncloud-docker/helm)
-[![GitHub contributors](https://img.shields.io/github/contributors/owncloud-docker/helm)](https://github.com/owncloud-docker/helm/graphs/contributors)
-[![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/helm)
-[![License: MIT](https://img.shields.io/github/license/owncloud-docker/helm)](https://github.com/owncloud-docker/helm/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/drone/build/owncloud-docker/helm-charts?logo=drone&server=https%3A%2F%2Fdrone.owncloud.com)](https://drone.owncloud.com/owncloud-docker/helm-charts)
+[![GitHub contributors](https://img.shields.io/github/contributors/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/graphs/contributors)
+[![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/helm-charts)
+[![License: MIT](https://img.shields.io/github/license/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/blob/master/LICENSE)
 
 The code is provided as-is with no warranties.
 
@@ -21,11 +21,11 @@ For instructions on how to run it anyways the the respective chart's readme.
 [//]: # "```"
 [//]: # "You can then run `helm search repo owncloud` to see the charts."
 
-Chart documentation is available in the [owncloud directory](https://github.com/owncloud-docker/helm/blob/main/charts/owncloud/README.md).
+Chart documentation is available in the [owncloud directory](https://github.com/owncloud-docker/helm-charts/blob/main/charts/owncloud/README.md).
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/owncloud-docker/helm/blob/master/LICENSE) file for details.
+This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/owncloud-docker/helm-charts/blob/master/LICENSE) file for details.
 
 ## Copyright
 
