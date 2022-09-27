@@ -246,8 +246,8 @@ def release(ctx):
                 "image": "quay.io/helmpack/chart-releaser",
                 "commands": [
                     "mkdir -p dist/docs/",
+                    "cp README.md dist/docs/README.md",
                     "cr index",
-                    "cp dist/docs/README.md",
                 ],
                 "when": {
                     "ref": [
