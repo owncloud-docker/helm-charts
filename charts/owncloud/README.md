@@ -68,3 +68,26 @@ Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created or not. |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and `create` is set to `true`, a name is generated using the fullname template. |
 | tolerations | list | `[]` | Tolerations are applied to pods and allow the scheduler to schedule pods with matching taints. One or more taints need to be applied to a node to instruct this node to not accept any pods that do not tolerate the taints. |
+
+## Examples
+
+### Configure OpenID Connect
+
+To configure OpenID Connect the configExtra object can be used.
+
+```YAML
+configExtra:
+  openid-connect:
+    auto-provision:
+      enabled: true
+      email-claim: "email"
+      display-name-claim: "given_name"
+      picture-claim: "picture"
+    provider-url: "https://example.com"
+    client-id: "myclientid"
+    client-secret: "mysecret"
+    autoRedirectOnLoginPage: false
+    mode: "email"
+    scopes: []
+    use-access-token-payload-for-user-info: false
+```
