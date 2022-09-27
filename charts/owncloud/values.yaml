@@ -49,11 +49,10 @@ redis:
 
 image:
   repository: docker.io/owncloud/server
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: 10.11
+  tag: 10.11.0
+  pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets: {}
 nameOverride: ""
 fullnameOverride: ""
 

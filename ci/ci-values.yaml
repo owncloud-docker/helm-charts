@@ -35,7 +35,7 @@ externalDatabase:
   password: owncloud
 
 persistence:
-  enabled: true
+  enabled: false
   owncloud:
     accessMode:
       - ReadWriteOnce
@@ -67,11 +67,11 @@ securityContext:
   readOnlyRootFilesystem: false
 
 service:
-  type: LoadBalancer
+  type: NodePort
   port: 80
 
 ingress:
-  enabled: true
+  enabled: false
   annotations: {}
   hosts:
     - host: "owncloud.chart.example"

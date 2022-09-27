@@ -1,17 +1,20 @@
 ---
 apiVersion: v2
 name: owncloud
+version: 0.1.0
 description: ownCloud Server Helm chart
+appVersion: 10.11.0
 keywords:
   - owncloud
+  - files
+  - collaboration
+  - sharing
 maintainers:
   - name: ownCloud GmbH
     email: devops@owncloud.com
     url: https://owncloud.com
 type: application
-version: 0.1.0
-appVersion: 10.11.0
-kubeVersion: "~1.20.0 || ~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0" # if this changes, also kubernetesVersions in .drone.star needs to be changed
+kubeVersion: "~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0" # if this changes, also kubernetesVersions in .drone.star needs to be changed
 sources:
   - https://github.com/owncloud-docker/helm
   - https://github.com/owncloud-docker/server
