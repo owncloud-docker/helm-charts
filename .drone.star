@@ -89,8 +89,10 @@ def kubernetes(ctx, config):
             {
                 "name": "kube-lint",
                 "image": "stackrox/kube-linter",
-                "commands": [
-                    "/kube-linter lint ci/owncloud-ci-templated.yaml",
+                "entrypoint": [
+                    "/kube-linter",
+                    "lint",
+                    "ci/owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["helm-template"],
             },
@@ -109,8 +111,13 @@ def kubernetes(ctx, config):
             {
                 "name": "kubeconform-%s" % version,
                 "image": "ghcr.io/yannh/kubeconform",
-                "commands": [
-                    "/kubeconform -kubernetes-version %s -summary -strict ci/owncloud-ci-templated.yaml" % version,
+                "entrypoint": [
+                    "/kubeconform",
+                    "-kubernetes-version",
+                    "%s" % version,
+                    "-summary",
+                    "-strict",
+                    "ci/owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["kube-lint"],
             },
