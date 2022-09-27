@@ -173,7 +173,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "jnorwood/helm-docs:latest",
+                "image": "jnorwood/helm-docs",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
                     "--badge-style=flat",
