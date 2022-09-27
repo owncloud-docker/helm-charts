@@ -174,7 +174,7 @@ def documentation(ctx):
             {
                 "name": "helm-docs-readme",
                 "image": "jnorwood/helm-docs",
-                "commands": [
+                "entrypoint": [
                     "/usr/bin/helm-docs",
                     "--badge-style=flat",
                     "--template-files=README.md.gotmpl",
