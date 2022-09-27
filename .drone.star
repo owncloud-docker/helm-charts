@@ -216,7 +216,7 @@ def release(ctx):
                 "name": "helmpack-package",
                 "image": "quay.io/helmpack/chart-releaser",
                 "commands": [
-                    "sed -i 's/version: 0.0.0-devel/version: %s/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "").removeprefix("v") if ctx.build.event == "tag" else "0.0.0-devel"),
+                    "sed -i 's/version: 0.0.0-devel/version: %s/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "").replace("v", "") if ctx.build.event == "tag" else "0.0.0-devel"),
                     "cr package charts/owncloud/",
                 ],
             },
