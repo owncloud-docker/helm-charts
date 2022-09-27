@@ -10,7 +10,7 @@ metadata:
     ignore-check.kube-linter.io/no-read-only-root-fs : "ownCloud need to write /etc/environment on startup"
 spec:
 {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicas }}
 {{- end }}
   selector:
     matchLabels:
@@ -45,7 +45,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ template "owncloud.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: OWNCLOUD_DOMAIN

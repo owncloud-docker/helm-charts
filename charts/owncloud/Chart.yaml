@@ -4,6 +4,7 @@ name: owncloud
 version: 0.1.0
 description: ownCloud Server Helm chart
 appVersion: 10.11.0
+home: https://owncloud.com/
 keywords:
   - owncloud
   - files

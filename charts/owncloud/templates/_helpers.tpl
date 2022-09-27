@@ -60,3 +60,15 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+ownCloud image logic
+*/}}
+{{- define "owncloud.image" -}}
+  {{- $tag := default .Chart.AppVersion .Values.image.tag -}}
+  {{- if $.Values.image.sha -}}
+"{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
+  {{- else -}}
+"{{ $.Values.image.repository }}:{{ $tag }}"
+  {{- end -}}
+{{- end -}}
