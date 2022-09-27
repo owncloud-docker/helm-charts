@@ -4,6 +4,7 @@ name: owncloud
 version: 0.1.0
 description: ownCloud Server Helm chart
 appVersion: 10.11.0
+home: https://owncloud.com/
 keywords:
   - owncloud
   - files
@@ -16,6 +17,6 @@ maintainers:
 type: application
 kubeVersion: "~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0" # if this changes, also kubernetesVersions in .drone.star needs to be changed
 sources:
-  - https://github.com/owncloud-docker/helm
+  - https://github.com/owncloud-docker/helm-charts
   - https://github.com/owncloud-docker/server
   - https://github.com/owncloud/core

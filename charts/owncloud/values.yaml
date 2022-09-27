@@ -1,5 +1,20 @@
 ---
-replicaCount: 1
+image:
+  # -- Image repository
+  repository: docker.io/owncloud/server
+  # -- Image tag.
+  # @default -- The `appVersion` of the Chart.
+  tag: ""
+  # -- Image sha/digest (optional).
+  sha: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
+# -- List of references to secrets in the same namespace to use for pulling images from a private registry.
+imagePullSecrets: {}
+
+nameOverride: ""
+fullnameOverride: ""
 
 owncloud:
   domain: owncloud.chart.example
@@ -28,6 +43,9 @@ owncloud:
 mariadb:
   enabled: false
 
+redis:
+  enabled: false
+
 externalDatabase:
   type: ""
   host: ""
@@ -37,6 +55,7 @@ externalDatabase:
   password: owncloud
 
 persistence:
+  # -- Enables persistence.
   enabled: true
   owncloud:
     accessMode:
@@ -44,61 +63,83 @@ persistence:
     size: 20Gi
     nfs: {}
 
-redis:
-  enabled: false
-
-image:
-  repository: docker.io/owncloud/server
-  tag: 10.11.0
-  pullPolicy: IfNotPresent
-
-imagePullSecrets: {}
-nameOverride: ""
-fullnameOverride: ""
+# -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
+replicas: 1
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created or not.
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account.
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # -- The name of the service account to use. If not set and `create` is set to `true`,
+  # a name is generated using the fullname template.
   name: ""
 
+# -- Annotations to attach metadata to the Pod.
 podAnnotations: {}
-
+# -- Security settings for the Pod.
 podSecurityContext: {}
-
+# -- Security settings for the Container.
 securityContext:
+  # -- Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud 10.
   readOnlyRootFilesystem: false
 
 service:
   type: LoadBalancer
-  port: 80
+  port: 8080
 
 ingress:
-  enabled: true
+  # -- Enables the Ingress.
+  enabled: false
+  # -- Ingress class to use.
+  # Uses the default ingress class if not set.
+  ingressClassName: ""
+  # -- Ingress annotations.
   annotations: {}
-  hosts:
-    - host: "owncloud.chart.example"
-      paths: ["/*"]
-      servicePort: 80
-  tls:
-    - hosts:
-        - "owncloud.chart.example"
-      secretName: owncloud
+  # -- Labels for the ingress.
+  labels: {}
+  # -- Ingress TLS configuration.
+  tls: []
+  # tls:
+  #   - secretName: owncloud
+  #     hosts:
+  #        - owncloud.example.com
 
+# -- Resources to apply to all init containers.
 initResources: {}
+# -- Resources to apply to all services.
 resources: {}
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
 autoscaling:
+  # -- Enables autoscaling. When set to `true`, `replicas` is no longer applied.
   enabled: false
+  # -- Sets minimum replicas for autoscaling.
   minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
+  # -- Sets maximum replicas for autoscaling.
+  maxReplicas: 10
+  # -- Metrics to use for autoscaling.
+  metrics: []
+  # metrics:
+  # - type: Resource
+  #   resource:
+  #     name: cpu
+  #     targetAverageUtilization: 60
+  # - type: Resource
+  #   resource:
+  #     name: memory
+  #     targetAverageUtilization: 60
 
+# -- Simple node selection constraint.
 nodeSelector: {}
-
-tolerations: []
-
+# -- Node affinity selection constraint.
 affinity: {}
+# -- Tolerations are applied to pods and allow the scheduler to schedule pods with matching taints.
+# One or more taints need to be applied to a node to instruct this node to not accept any pods
+# that do not tolerate the taints.
+tolerations: []
