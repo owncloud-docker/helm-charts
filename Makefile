@@ -38,5 +38,5 @@ api: ci-template
 	$(GO) run $(KUBECONFORM_PACKAGE) -kubernetes-version 1.24.0 -summary -strict ci/owncloud-ci-templated.yaml
 
 .PHONY: package
-package: | $(DIST_DIRS)
+package:
 	cr package charts/owncloud/
