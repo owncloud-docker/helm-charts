@@ -3,6 +3,7 @@ KUBE_LINTER_PACKAGE_VERSION := latest
 KUBECONFORM_PACKAGE_VERSION := latest
 
 SHELL := bash
+DIST := dist
 GO ?= go
 
 HELM_DOCS_PACKAGE ?= github.com/norwoodj/helm-docs/cmd/helm-docs@$(HELM_DOCS_PACKAGE_VERSION)
@@ -21,7 +22,8 @@ ci-template:
 
 .PHONY: clean
 clean:
-	@rm ci/owncloud-ci-templated.yaml
+	rm -rf ci/owncloud-ci-templated.yaml
+	rm -rf $(DIST)
 
 .PHONY: lint
 lint: ci-template
@@ -34,3 +36,7 @@ api: ci-template
 	$(GO) run $(KUBECONFORM_PACKAGE) -kubernetes-version 1.22.0 -summary -strict ci/owncloud-ci-templated.yaml
 	$(GO) run $(KUBECONFORM_PACKAGE) -kubernetes-version 1.23.0 -summary -strict ci/owncloud-ci-templated.yaml
 	$(GO) run $(KUBECONFORM_PACKAGE) -kubernetes-version 1.24.0 -summary -strict ci/owncloud-ci-templated.yaml
+
+.PHONY: package
+package: | $(DIST_DIRS)
+	cr package charts/owncloud/

@@ -14,6 +14,7 @@ config = {
 
 def main(ctx):
     pipeline_starlark = starlark(ctx)
+    pipeline_release = release(ctx)
 
     pipeline_docs = documentation(ctx)
     pipeline_docs[0]["depends_on"].append(pipeline_starlark[0]["name"])
@@ -24,8 +25,9 @@ def main(ctx):
     pipeline_deployments = deployments(ctx)
     for pipeline in pipeline_deployments:
         pipeline["depends_on"].append(pipeline_kubernetes[0]["name"])
+        pipeline_release[0]["depends_on"].append(pipeline["name"])
 
-    return pipeline_starlark + pipeline_docs + pipeline_kubernetes + pipeline_deployments
+    return pipeline_starlark + pipeline_docs + pipeline_kubernetes + pipeline_deployments + pipeline_release
 
 def starlark(ctx):
     return [{
@@ -193,6 +195,62 @@ def documentation(ctx):
         "trigger": {
             "ref": [
                 "refs/heads/main",
+                "refs/pull/**",
+            ],
+        },
+    }]
+
+def release(ctx):
+    return [{
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "release",
+        "steps": [
+            {
+                "name": "package",
+                "image": "quay.io/helmpack/chart-releaser",
+                "commands": [
+                    "echo 'Test'",
+                    "CHART_VERSION=${DRONE_TAG##v}",
+                    "sed -i 's/version: 0.0.0-devel/version: '\"$${CHART_VERSION:-0.0.0-devel}\"'/g' charts/owncloud/Chart.yaml",
+                    "cr package charts/owncloud/",
+                ],
+            },
+            {
+                "name": "changelog",
+                "image": "thegeeklab/git-chglog",
+                "commands": [
+                    "git fetch -tq",
+                    "git-chglog --no-color --no-emoji %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
+                    "git-chglog --no-color --no-emoji -o CHANGELOG.md %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
+                ],
+            },
+            {
+                "name": "release",
+                "image": "plugins/github-release",
+                "settings": {
+                    "api_key": {
+                        "from_secret": "github_token",
+                    },
+                    "files": [
+                        "dist/*",
+                    ],
+                    "note": "CHANGELOG.md",
+                    "title": ctx.build.ref.replace("refs/tags/", ""),
+                    "overwrite": True,
+                },
+                "when": {
+                    "ref": [
+                        "refs/tags/**",
+                    ],
+                },
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/main",
+                "refs/tags/**",
                 "refs/pull/**",
             ],
         },

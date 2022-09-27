@@ -1,11 +1,47 @@
 {{ template "chart.header" . }}
 {{ template "chart.deprecationWarning" . }}
-{{ template "chart.badgesSection" . }}
+![Helm Version](https://img.shields.io/github/v/release/owncloud-docker/helm-charts?label=Version)
+{{ template "chart.typeBadge" . }}
+{{ template "chart.appVersionBadge" . }}
 
 {{ template "chart.description" . }}
 {{ template "chart.homepageLine" . }}
 {{ template "chart.sourcesSection" . }}
 {{ template "chart.requirementsSection" . }}
+
+## Usage
+
+### Get Repo Info
+
+```Shell
+helm repo add owncloud https://owncloud-docker.github.io/helm-charts
+helm repo update
+```
+
+_See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation._
+
+### Installing the Chart
+
+To install the chart with the release name `my-release`:
+
+```Shell
+helm install my-release owncloud/owncloud
+```
+
+### Uninstalling the Chart
+
+To uninstall/delete the my-release deployment:
+
+```Shell
+helm delete my-release
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+### Upgrading an existing Release to a new major version
+
+A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an incompatible breaking change needing manual actions.
+
 {{ template "chart.valuesSection" . }}
 
 ## Examples

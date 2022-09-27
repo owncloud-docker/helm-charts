@@ -17,3 +17,4 @@ nohup.out
 
 # Misc
 .drone.yml
+dist/

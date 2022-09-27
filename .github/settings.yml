@@ -2,6 +2,7 @@
 repository:
   name: helm
   description: ownCloud Server Helm chart
+  homepage: https://owncloud-docker.github.io/helm-charts/
   topics: docker, owncloud, helm
 
   private: false
