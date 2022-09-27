@@ -4,3 +4,4 @@ git-repo: helm-charts
 pages-branch: gh_pages
 package-path: dist/files/
 index-path: dist/docs/index.yaml
+release-notes-file: CHANGELOG.md

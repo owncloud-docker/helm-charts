@@ -89,10 +89,8 @@ def kubernetes(ctx, config):
             {
                 "name": "kube-lint",
                 "image": "stackrox/kube-linter",
-                "entrypoint": [
-                    "/kube-linter",
-                    "lint",
-                    "ci/owncloud-ci-templated.yaml",
+                "commands": [
+                    "/kube-linter lint ci/owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["helm-template"],
             },
@@ -111,13 +109,8 @@ def kubernetes(ctx, config):
             {
                 "name": "kubeconform-%s" % version,
                 "image": "ghcr.io/yannh/kubeconform",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "%s" % version,
-                    "-summary",
-                    "-strict",
-                    "ci/owncloud-ci-templated.yaml",
+                "commands": [
+                    "/kubeconform -kubernetes-version %s -summary -strict ci/owncloud-ci-templated.yaml" % version,
                 ],
                 "depends_on": ["kube-lint"],
             },
@@ -176,11 +169,8 @@ def documentation(ctx):
             {
                 "name": "helm-docs-readme",
                 "image": "jnorwood/helm-docs",
-                "entrypoint": [
-                    "/usr/bin/helm-docs",
-                    "--badge-style=flat",
-                    "--template-files=ci/README.md.gotmpl",
-                    "--output-file=README.md",
+                "commands": [
+                    "/usr/bin/helm-docs --badge-style=flat --template-files=ci/README.md.gotmpl --output-file=README.md",
                 ],
             },
             {
@@ -207,16 +197,6 @@ def release(ctx):
         "name": "release",
         "steps": [
             {
-                "name": "package",
-                "image": "quay.io/helmpack/chart-releaser",
-                "commands": [
-                    "echo 'Test'",
-                    "CHART_VERSION=${DRONE_TAG##v}",
-                    "sed -i 's/version: 0.0.0-devel/version: '\"$${CHART_VERSION:-0.0.0-devel}\"'/g' charts/owncloud/Chart.yaml",
-                    "cr package charts/owncloud/",
-                ],
-            },
-            {
                 "name": "changelog",
                 "image": "thegeeklab/git-chglog",
                 "commands": [
@@ -226,18 +206,55 @@ def release(ctx):
                 ],
             },
             {
-                "name": "release",
-                "image": "plugins/github-release",
-                "settings": {
-                    "api_key": {
+                "name": "helmpack-package",
+                "image": "quay.io/helmpack/chart-releaser",
+                "commands": [
+                    "sed -i 's/version: 0.0.0-devel/version: '%s'/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "0.0.0-devel"),
+                    "cr package charts/owncloud/",
+                ],
+            },
+            {
+                "name": "helmpack-upload",
+                "image": "quay.io/helmpack/chart-releaser",
+                "environment": {
+                    "CR_TOKEN": {
                         "from_secret": "github_token",
                     },
-                    "files": [
-                        "dist/*",
+                },
+                "commands": [
+                    "cr upload charts/owncloud/",
+                ],
+                "when": {
+                    "ref": [
+                        "refs/tags/**",
                     ],
-                    "note": "CHANGELOG.md",
-                    "title": ctx.build.ref.replace("refs/tags/", ""),
-                    "overwrite": True,
+                },
+            },
+            {
+                "name": "helmpack-index",
+                "image": "quay.io/helmpack/chart-releaser",
+                "commands": [
+                    "cr index",
+                    "cp dist/docs/README.md
+                ],
+                "when": {
+                    "ref": [
+                        "refs/tags/**",
+                    ],
+                },
+            },
+            {
+                "name": "pages",
+                "image": "plugins/gh-pages",
+                "settings": {
+                    "pages_directory": "dist/docs/",
+                    "password": {
+                        "from_secret": "github_token",
+                    },
+                    "target_branch": "gh_pages",
+                    "username": {
+                        "from_secret": "github_username",
+                    },
                 },
                 "when": {
                     "ref": [
