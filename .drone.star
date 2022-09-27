@@ -60,6 +60,7 @@ def starlark(ctx):
         "trigger": {
             "ref": [
                 "refs/heads/main",
+                "refs/tags/**",
                 "refs/pull/**",
             ],
         },
@@ -101,6 +102,7 @@ def kubernetes(ctx, config):
         "trigger": {
             "ref": [
                 "refs/heads/main",
+                "refs/tags/**",
                 "refs/pull/**",
             ],
         },
@@ -152,6 +154,7 @@ def deployments(ctx):
         "trigger": {
             "ref": [
                 "refs/heads/main",
+                "refs/tags/**",
                 "refs/pull/**",
             ],
         },
@@ -192,6 +195,7 @@ def documentation(ctx):
         "trigger": {
             "ref": [
                 "refs/heads/main",
+                "refs/tags/**",
                 "refs/pull/**",
             ],
         },
@@ -209,7 +213,7 @@ def release(ctx):
                 "commands": [
                     "git fetch -tq",
                     "git-chglog --no-color --no-emoji %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
-                    "git-chglog --no-color --no-emoji -o CHANGELOG.md %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
+                    "git-chglog --no-color --no-emoji -o charts/owncloud/CHANGELOG.md %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
                 ],
             },
             {
@@ -241,6 +245,7 @@ def release(ctx):
                 "name": "helmpack-index",
                 "image": "quay.io/helmpack/chart-releaser",
                 "commands": [
+                    "mkdir -p dist/docs/",
                     "cr index",
                     "cp dist/docs/README.md",
                 ],
