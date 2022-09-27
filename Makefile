@@ -13,7 +13,7 @@ all: docs lint api clean
 
 .PHONY: docs
 docs:
-	$(GO) run $(HELM_DOCS_PACKAGE) --badge-style=flat --template-files=README.md.gotmpl --output-file=README.md
+	$(GO) run $(HELM_DOCS_PACKAGE) --badge-style=flat --template-files ci/README.md.gotmpl --output-file=README.md
 
 .PHONY: ci-template
 ci-template:

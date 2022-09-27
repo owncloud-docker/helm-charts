@@ -173,11 +173,11 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "jnorwood/helm-docs",
+                "image": "jnorwood/helm-docs:latest",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
                     "--badge-style=flat",
-                    "--template-files=README.md.gotmpl",
+                    "--template-files=ci/README.md.gotmpl",
                     "--output-file=README.md",
                 ],
             },

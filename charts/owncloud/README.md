@@ -4,18 +4,11 @@
 
 ownCloud Server Helm chart
 
-## Maintainers
-
-| Name | Email | Url |
-| ---- | ------ | --- |
-| ownCloud GmbH | <devops@owncloud.com> | <https://owncloud.com> |
-
 ## Source Code
 
 * <https://github.com/owncloud-docker/helm>
 * <https://github.com/owncloud-docker/server>
 * <https://github.com/owncloud/core>
-
 ## Requirements
 
 Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
@@ -75,4 +68,3 @@ Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
 | tolerations | list | `[]` |  |
-
