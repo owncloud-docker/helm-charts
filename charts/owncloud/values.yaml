@@ -3,7 +3,7 @@ image:
   # -- Image repository
   repository: docker.io/owncloud/server
   # -- Image tag.
-    # @default -- The `appVersion` of the Chart.
+  # @default -- The `appVersion` of the Chart.
   tag: ""
   # -- Image sha/digest (optional).
   sha: ""
