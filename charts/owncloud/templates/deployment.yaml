@@ -65,7 +65,7 @@ spec:
             - name: OWNCLOUD_APPS_ENABLE
               value: {{ .Values.owncloud.apps.enable | quote }}
             - name: OWNCLOUD_APPS_INSTALL
-              value: {{ .Values.owncloud.apps.enstall | quote }}
+              value: {{ .Values.owncloud.apps.install | quote }}
             - name: OWNCLOUD_APPS_INSTALL_MAJOR
               value: {{ .Values.owncloud.apps.installMajor | quote }}
             - name: OWNCLOUD_APPS_UNINSTALL
