@@ -312,7 +312,7 @@ owncloud:
     bucket: "owncloud"
     # -- Class to use for the objectstore. It is recommended to keep the default (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
     # @default -- OCA\Files_Primary_S3\S3Storage
-    class: "OCA\Files_Primary_S3\S3Storage"
+    class: "OCA\\Files_Primary_S3\\S3Storage"
     # -- Enabled or disables the objectstore configuration.
     # @default -- false
     enabled: false
