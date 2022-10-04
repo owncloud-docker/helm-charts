@@ -17,28 +17,385 @@ nameOverride: ""
 fullnameOverride: ""
 
 owncloud:
-  domain: owncloud.chart.example
-  username: owncloud
-  password: owncloud
-  volume_apps: /mnt/data/apps
-  volume_config: /mnt/data/config
-  volume_files: /mnt/data/files
-  volume_root: /mnt/data
+  # -- Location of the access log.
+  # @default -- /dev/stdout
+  accesslogLocation: "/dev/stdout"
+  # -- Allow medial search on user account properties (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#allow-medial-search-on-user-account-properties)).
+  accountsEnableMedialSearch: ""
+  # -- ownCloud admin password.
+  # @default -- admin
+  adminPassword: "owncloud"
+  # -- ownCloud admin username.
+  # @default -- admin
+  adminUsername: "owncloud"
+  # -- Allow or disallow users to change their display names (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#allow-or-disallow-users-to-change-their-display-names)).
+  allowUserToChangeDisplayName: ""
+  apps: 
+    # -- List of deprecated apps that must be removed (automatically) before performing an ownCloud upgrade to avoid upgrade issues.
+    deprecated: ""
+    # -- List of apps to disable on container startup.
+    disable: ""
+    # -- List of apps to enable on container startup.
+    # @default -- `{{ .Values.owncloud.apps.install }}`
+    enable: ""
+    # -- List of apps to install on container startup.
+    install: ""
+    # -- By default ownCloud will not install a new major version of an already installed app. To enforce major updates for apps this option need to be set to `true`.
+    # @default -- false
+    installMajor: ""
+    # -- List of apps to remove on container startup.
+    uninstall: ""
+  # -- Service to execute ownCloud backgrouns jobs. It is recommended to keep the default (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/background_jobs_configuration.html)).
+  backgroundMode: "cron"
+  # -- Define blacklisted files (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-blacklisted-files)).
+  blacklistedFiles: ""
+  # -- Define the TTL for garbage collection (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-ttl-for-garbage-collection)).
+  cacheChunkGcTtl: ""
+  # -- Define the location of the cache folder (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-location-of-the-cache-folder)).
+  cachePath: ""
+  # -- Check for a .well-known setup (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#check-for-a-well-known-setup)).
+  checkForWorkingWellknownSetup: ""
+  # -- Define the default cipher for encrypting files (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-default-cipher-for-encrypting-files)).
+  cipher: ""
+  # -- Define an alternative Comments Manager (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-an-alternative-comments-manager)).
+  commentsManagerFactory: ""
+  # -- Define global list of CORS domains (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-global-list-of-cors-domains)).
+  corsAllowedDomains: ""
+  # -- Enable or disable the system cron service. Required for ` .Values.owncloud.backgroundMode: "cron"`.
+  crondEnabled: "true"
+  # -- Cron schedule to run ownCloud background jobs.
+  crondSchedule: "*/1 * * * *"
+  # -- Define logging if cron ran successfully(see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-logging-if-cron-ran-successfully))
+  cronLog: ""
+  # -- Enable or disable ownCloud’s built-in CSRF protection mechanism (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-ownclouds-built-in-csrf-protection-mechanism)).
+  csrfDisabled: ""
+  # -- Define the DAV chunk base directory (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-dav-chunk-base-directory)).
+  davChunkBaseDir: ""
+  # -- Enable or disable async DAV extensions (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-async-dav-extensions)).
+  davEnableAsync: ""
+  db:
+    # -- Exit container if the database can't reached during the startup.
+    fail: "true"
+    # -- Define the database server host name (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-database-server-host-name)).
+    host: ""
+    # -- Define the ownCloud database name (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-owncloud-database-name)).
+    name: "owncloud"
+    # -- Define the password for the database user (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-password-for-the-database-user)).
+    password: ""
+    # -- Define the prefix for the ownCloud tables in the database (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-prefix-for-the-owncloud-tables-in-the-database)).
+    prefix: "oc_"
+    # -- Time to wait for a successful connection to the database on container startup.
+    timeout: "180"
+    # -- Identify the database used with this installation (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#identify-the-database-used-with-this-installation)).
+    type: "sqlite"
+    # -- Define the ownCloud database user (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-owncloud-database-user)).
+    username: ""
+  # -- Place this ownCloud instance into debugging mode (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#place-this-owncloud-instance-into-debugging-mode)).
+  debug: false
+  # -- Define the default app to open on user login (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-default-app-to-open-on-user-login)).
+  defaultApp: ""
+  # -- Define the default language of your ownCloud instance (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-default-language-of-your-owncloud-instance)).
+  defaultLanguage: "en"
+  # -- Base domain used in `{{ .Values.owncloud.overwriteCliUrl }}` by default.
+  # @default -- localhost
+  domain: "owncloud.chart.example"
+  # -- Define preview providers (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-preview-providers)).
+  enabledPreviewProviders: ""
+  # -- Enable or disable avatars or user profile photos (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-avatars-or-user-profile-photos)).
+  enableAvatars: ""
+  # -- Allow the configuration of system-wide trusted certificates (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#allow-the-configuration-of-system-wide-trusted-certificates)).
+  enableCertificateManagement: ""
+  # -- Enable preview generation (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-preview-generation)).
+  enablePreviews: ""
+  # -- Rewrites OpenID Connect wellknown URL `.well-known/openid-configuration` to the ownCloud OIDC configuration endpoint (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/user/oidc/oidc.html#set-up-service-discovery)).
+  enableOidcRewriteUrl: "false"
+  # -- Enable or disable loading of files from `/etc/entrypoint.d`. It is recommended to keep the default.
+  entrypointInitialized: "true"
+  # -- Output location for the Apache error log.
+  errorlogLocation: "/dev/stderr"
+  # -- Define excluded directories (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-excluded-directories)).
+  excludedDirectories: ""
+  # -- Enable transactional file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-transactional-file-locking)).
+  filelockingEnabled: "true"
+  # -- Define the TTL for file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-ttl-for-file-locking)).
+  filelockingTtl: ""
+  # -- Prevent cache changes due to changes in the filesystem (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#prevent-cache-changes-due-to-changes-in-the-filesystem)).
+  filesystemCacheReadonly: ""
+  # -- Define how often filesystem changes are detected (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-how-often-filesystem-changes-are-detected)).
+  filesystemCheckChanges: ""
+  # -- Enable or disable the files_external local mount option (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-the-files_external-local-mount-option)).
+  filesExternalAllowNewLocal: ""
+  # -- Define forwarded_for_headers (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-forwarded_for_headers)).
+  forwardedForHeaders: ""
+  # -- Define the hashing cost (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-hashing-cost)).
+  hashingCost: ""
+  # -- Check for an internet connection (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#check-for-an-internet-connection)).
+  hasInternetConnection: ""
+  # -- Define clean URLs without /index.php (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-clean-urls-without-index-php)).
+  # @default -- `{{ .Values.owncloud.subUrl }}`
+  htaccessRewriteBase: ""
+  # -- Define how to relax same site cookie settings (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-how-to-relax-same-site-cookie-settings)).
+  httpCookieSamesite: ""
+  # -- Define files that are excluded from integrity checking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-files-that-are-excluded-from-integrity-checking)).
+  integrityExcludedFiles: ""
+  # -- Define apps or themes that are excluded from integrity checking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-apps-or-themes-that-are-excluded-from-integrity-checking)).
+  integrityIgnoreMissingAppSignature: ""
+  knowledgebaseEnabled: ""
+  appstoreEnabled: ""
+  # -- ownCloud Enterprise License Key (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/enterprise/installation/install.html#license-keys)).
+  licenseKey: ""
+  licenseClass: ""
+  # -- Define additional login buttons on the logon screen (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-additional-login-buttons-on-the-logon-screen)).
+  loginAlternatives: ""
+  log:
+    # -- Define the log date format (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-date-format)).
+    dateFormat: ""
+    # -- Define the log path (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-path)).
+    # @default -- `{{ .Values.owncloud.volume.files }}/owncloud.log`
+    file: ""
+    # -- Define the log level (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-level)).
+    level: ""
+    # -- Define the maximum log rotation file size (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-maximum-log-rotation-file-size)).
+    rotateSize: ""
+    # -- Define the log timezone (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-timezone)).
+    timezone: ""
+  # -- Define a custom link to reset passwords (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-a-custom-link-to-reset-passwords)).
+  lostPasswordLink: ""
+  mail:
+    # -- Define the email RETURN address (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-email-return-address)).
+    domain: ""
+    # -- Define the email FROM address (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-email-from-address)).
+    fromAddress: ""
+    smtp:
+      # -- Define the SMTP authentication (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-smtp-authentication)).
+      auth: ""
+      # -- Define the SMTP authentication type (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-smtp-authentication-type)).
+      authType: ""
+      # -- Enable or disable SMTP class debugging (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-smtp-class-debugging)).
+      debug: ""
+      # -- Define the IP address of your mail server host (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-ip-address-of-your-mail-server-host)).
+      host: ""
+      # -- Define the mode for sending an email (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-mode-for-sending-an-email)).
+      mode: ""
+      # -- Define the SMTP authentication username (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-smtp-authentication-username)).
+      name: ""
+      # -- Define the SMTP authentication password (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-smtp-authentication-password)).
+      password: ""
+      # -- Define the port for sending an email (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-port-for-sending-an-email)).
+      port: ""
+      # -- Define the SMTP security style (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-smtp-security-style)).
+      secure: ""
+      # -- Define the SMTP server timeout (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-smtp-server-timeout)).
+      timeout: ""
+  # -- Enable maintenance mode to disable ownCloud (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-maintenance-mode-to-disable-owncloud)).
+  maintenance: ""
+  marketplace:
+    # -- Developer option to connect to Marketplace testing instances.
+    ca: ""
+    # -- Developer option to get access to unreleased Apps in your Marketplace account.
+    key: ""
+  # -- Sets PHP option `max_execution_time`. It is recommended to keep the default (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/big_file_upload_configuration.html#configuring-via-php-global-settings)).
+  maxExecutionTime: "3600"
+  # -- Define the maximum filesize for animated GIF´s (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-maximum-filesize-for-animated-gifs)).
+  maxFilesizeAnimatedGifsPublicSharing: ""
+  # -- Sets PHP option `max_input_time`. It is recommended to keep the default (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/big_file_upload_configuration.html#configuring-via-php-global-settings)).
+  maxInputTime: "3600"
+  # -- Sets PHP option `upload_max_filesize` and `post_max_size`. It is recommended to keep the default (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/big_file_upload_configuration.html#configuring-via-php-global-settings)).
+  maxUpload: "20G"
+  # -- Enabled memory caching via memcached (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#memory-caching-backend-for-distributed-data)).
+  memcachedEnabled: "false"
+  # -- Defines the hosts for memcached (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-server-details-for-memcached-servers-to-use-for-memory-caching)).
+  memcachedHost: "memcached"
+  # -- Define connection options for memcached (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-connection-options-for-memcached)).
+  memcachedOptions: ""
+  # -- Defines the ports for memcached (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-server-details-for-memcached-servers-to-use-for-memory-caching)).
+  memcachedPort: "11211"
+  # -- Time to wait for a successful connection to the memcached service on container startup.
+  memcachedStartupTimeout: "180"
+  # -- Memory caching backend for locally stored data (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#memory-caching-backend-for-locally-stored-data)).
+  memcacheLocal: "\\OC\\Memcache\\APCu"
+  # -- Define the memory caching backend for file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-memory-caching-backend-for-file-locking)).
+  memcacheLocking: ""
+  # -- Define the minimum supported ownCloud desktop client version (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-minimum-supported-owncloud-desktop-client-version)).
+  minimumSupportedDesktopVersion: ""
+  mountFile: ""
+  # -- Define MySQL 3/4 byte character handling (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-mysql-34-byte-character-handling)).
+  mysqlUtf8Mb4: ""
+  objectstore:
+    # -- Bucket name to store data.
+    bucket: "owncloud"
+    # -- Class to use for the objectstore. It is recommended to keep the default (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    class: "OCA\\Files_Primary_S3\\S3Storage"
+    # -- Enabled or disables the objectstore configuration.
+    enabled: false
+    # -- Endpoint of the objectstore provider (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    # @default -- `s3-{{ .Values.owncloud.objectstore.region }}.amazonaws.com`
+    endpoint: ""
+    # -- Access key for the objectstore (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    key: ""
+    # -- Enabled or disables path style for the objectstore (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    pathstyle: "false"
+    # -- Objectstore region to use (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    region: "us-east-1"
+    # -- Secret key for the objectstore (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    secret: ""
+    # -- Objectstore version to use (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
+    version: "2006-03-01"
+  # -- Define ownCloud operation modes (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-owncloud-operation-modes)).
+  operationMode: ""
+  # -- Override cli URL (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-cli-url)).
+  # @default -- `{{ .Values.owncloud.protocol }}://{{ .Values.owncloud.domain }}{{ .Values.owncloud.subUrl }}`
+  overwriteCliUrl: ""
+  # -- Override condition for the remote IP address with a regular expression (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-condition-for-the-remote-ip-address-with-a-regular-expression)).
+  overwriteCondAddr: ""
+  # -- Override automatic proxy detection (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-automatic-proxy-detection)).
+  overwriteHost: ""
+  # -- Override protocol (http/https) usage (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-protocol-httphttps-usage)).
+  overwriteProtocol: ""
+  # -- Override ownClouds webroot (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-ownclouds-webroot)).
+  overwriteWebroot: ""
+  # -- Define where part files are located (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-where-part-files-are-located)).
+  partFileInStorage: ""
+  # -- Path to custom scripts that need to be executed after a cron run.
+  postCronjobPath: "/etc/post_cronjob.d"
+  # -- Path to custom scripts that need to be executed after an ownCoud installation command.
+  postInstallPath: "/etc/post_install.d"
+  # -- Path to custom scripts that need to be executed after an ownCloud server startup.
+  postServerPath: "/etc/post_server.d"
+  preview:
+    # -- Define the custom path for the LibreOffice / OpenOffice binary (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-custom-path-for-the-libreoffice-openoffice-binary)).
+    libreofficePath: ""
+    # -- Define the maximum preview filesize limit (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-maximum-preview-filesize-limit)).
+    maxFilesizeImage: ""
+    # -- Define the maximum preview scale factor (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-maximum-preview-scale-factor)).
+    maxScaleFactor: ""
+    # -- Define the maximum x-axis width for previews (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-maximum-x-axis-width-for-previews)).
+    maxX: ""
+    # -- Define the maximum y-axis width for previews (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-maximum-y-axis-width-for-previews)).
+    maxY: ""
+    # -- Define additional arguments for LibreOffice / OpenOffice (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-additional-arguments-for-libreoffice-openoffice)).
+    officeClParameters: ""
+  # -- Path to custom scripts that need to be executed before a cron run.
+  preCronjobPath: "/etc/pre_cronjob.d"
+  # -- Path to custom scripts that need to be executed before an ownCoud installation command.
+  preInstallPath: "/etc/pre_install.d"
+  # -- Path to custom scripts that need to be executed before an ownCloud server startup.
+  preServerPath: "/etc/pre_server.d"
+  # -- Protocol used in `{{ .Values.owncloud.overwriteCliUrl }}` by default.
+  # @default -- http
+  protocol: "http"
+  # -- Define the URL of your proxy server (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-url-of-your-proxy-server)).
+  proxy: ""
+  # -- Define proxy authentication (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-proxy-authentication)).
+  proxyUserpwd: ""
+  # -- Define whether to include external storage in quota calculation (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-whether-to-include-external-storage-in-quota-calculation)).
+  quotaIncludeExternalStorage: ""
+  redis:
+    # -- Define Redis connection details sets the dbindex (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-connection-details)).
+    db: ""
+    # -- Sets memcache to Redis (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#memory-caching-backend-for-distributed-data)).
+    enabled: false
+    # -- Sets redis failover mode (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-cluster-connection-details)).
+    failoverMode: ""
+    # -- Sets redis host (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-connection-details)).
+    host: "redis"
+    # -- Set redis password (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-connection-details)).
+    password: ""
+    # -- Set redis port (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-connection-details)).
+    port: "6379"
+    # -- Sets redis read timeout (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-cluster-connection-details)).
+    readTimeout: ""
+    # -- Sets the redis cluster servers (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-cluster-connection-details)).
+    seeds: ""
+    # -- Sets PHP option `redis.session.locking_enabled` if `owncloud.session.saveHandler=redis`.
+    sessionLockingEnabled: "1"
+    # -- Sets PHP option `redis.session.lock_retries` if `owncloud.session.saveHandler=redis`.
+    sessionLockRetries: "750"
+    # -- Sets PHP option `redis.session.lock_wait_time` if `owncloud.session.saveHandler=redis`.
+    sessionLockWaitTime: "20000"
+    # -- Time to wait for a successful connection to the redis service on container startup.
+    startupTimeout: "180"
+    # -- Sets the redis timeout value (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-redis-cluster-connection-details)).
+    timeout: ""
+  # -- Define the lifetime of the remember-login cookie (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-lifetime-of-the-remember-login-cookie)).
+  rememberLoginCookieLifetime: ""
+  # -- Define ownClouds internal secret (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-ownclouds-internal-secret)).
+  secret: ""
+  session:
+    # -- Enable or disable session keep-alive when a user is logged in to the Web UI (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-session-keep-alive-when-a-user-is-logged-in-to-the-web-ui)).
+    keepalive: ""
+    # -- Define the lifetime of a session after inactivity (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-lifetime-of-a-session-after-inactivity)).
+    lifetime: ""
+    # -- Force the user to get logged out after the specified number of seconds when the tab or browser gets closed. Please read the documentation carefully before changing this option. (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-to-force-user-logout)).
+    forcedLogoutTimeout: ""
+    # -- Sets PHP option `session.save_handler`.
+    saveHandler: "files"
+    # -- Sets PHP option `session.save_path`. Only used if `owncloud.session.saveHandler=file`.
+    # @default -- `{{ .Values.owncloud.volume.sessions }}`
+    savePath: ""
+  # -- Define a default folder for shared files and folders other than root (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-a-default-folder-for-shared-files-and-folders-other-than-root)).
+  shareFolder: ""
+  # -- Allow schema fallback for federated sharing servers (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#allow-schema-fallback-for-federated-sharing-servers)).
+  sharingFederationAllowHttpFallback: ""
+  # -- Define an alternative Share Provider (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-an-alternative-share-provider)).
+  sharingManagerFactory: ""
+  # -- Show or hide the server hostname in status.php (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#show-or-hide-the-server-hostname-in-status-php)).
+  showServerHostname: ""
+  # -- Enable or disable single user mode (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-single-user-mode)).
+  singleuser: ""
+  # -- Define the directory where the skeleton files are located (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-directory-where-the-skeleton-files-are-located)).
+  skeletonDirectory: ""
+  # -- Enable or disable automatic file permissions correction on container startup.
+  skipChmod: "true"
+  # -- Enable or disable automatic file ownership correction on container startup.
+  skipChown: "true"
+  # -- Enable or disable debug logging for SMB access (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-debug-logging-for-smb-access)).
+  smbLoggingEnable: ""
+  # -- Define sqlite3 journal mode (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-sqlite3-journal-mode)).
+  sqliteJournalMode: ""
+  # -- URL path if ownCloud is deployed to a URL sub-path of a domain.
+  subUrl: "/"
+  # -- Define an alternative System Tags Manager (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-an-alternative-system-tags-manager)).
+  systemtagsManagerFactory: ""
+  # -- Define the location for temporary files (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-location-for-temporary-files)).
+  tempDirectory: ""
+  # -- Enforce token only authentication for apps and clients connecting to ownCloud (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enforce-token-only-authentication-for-apps-and-clients-connecting-to-owncloud)).
+  tokenAuthEnforced: ""
+  trashbin:
+    # -- Define the trashbin purge limit (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-trashbin-purge-limit)).
+    purgeLimit: ""
+    # -- Define the trashbin retention obligation (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-trashbin-retention-obligation)).
+    retentionObligation: ""
+  # -- Define list of trusted proxy servers (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-list-of-trusted-proxy-servers)).
+  trustedProxies: ""
+  # -- Define the updatechecker URL (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-updatechecker-url)).
+  updaterServerUrl: ""
+  # -- Enable or disable updatechecker (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-updatechecker)).
+  updateChecker: ""
+  # -- Define whether or not to enable automatic update of market apps (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-whether-or-not-to-enable-automatic-update-of-market-apps)).
+  upgradeAutomaticAppUpdates: ""
+  # -- Define minimum characters entered before a search returns results (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-minimum-characters-entered-before-a-search-returns-results)).
+  userSearchMinLength: ""
+  # -- Define the files versions retention obligation (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-files-versions-retention-obligation)).
+  versionsRetentionObligation: ""
+  # -- Show or hide the ownCloud version information in status.php (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#show-or-hide-the-owncloud-version-information-in-status-php)).
+  versionHide: ""
+  volume:
+    # -- Base directory used to store custom installed apps.
+    # @default -- `{{ .Values.owncloud.volume.root }}/apps`
+    apps: "/mnt/data/apps"
+    # -- Base directory used to store the ownCloud configuration.
+    # @default -- `{{ .Values.owncloud.volume.root }}/config`
+    config: "/mnt/data/config"
+    # -- Define the directory where user files are stored (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-directory-where-user-files-are-stored)).
+    # @default -- `{{ .Values.owncloud.volume.root }}/files`
+    files: "/mnt/data/files"
+    # -- Base data directory for ownCloud.
+    root: "/mnt/data"
+    # -- Base directory to store session files. Only used if `OWNCLOUD_SESSION_SAVE_HANDLER=file`.
+    # @default -- `{{ .Values.owncloud.volume.root }}/sessions`
+    sessions: "/mnt/data/sessions"
   configExtra: {}
-
-mariadb:
-  enabled: false
-
-redis:
-  enabled: false
-
-externalDatabase:
-  type: ""
-  host: ""
-  port: 3306
-  name: owncloud
-  user: owncloud
-  password: owncloud
 
 persistence:
   # -- Enables persistence.
