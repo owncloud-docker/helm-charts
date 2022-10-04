@@ -36,7 +36,7 @@ owncloud:
     # -- List of apps to disable on container startup.
     disable: ""
     # -- List of apps to enable on container startup.
-    # @default -- {{ .Values.owncloud.apps.install }}
+    # @default -- `{{ .Values.owncloud.apps.install }}`
     enable: ""
     # -- List of apps to install on container startup.
     install: ""
@@ -132,7 +132,7 @@ owncloud:
   # -- Check for an internet connection (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#check-for-an-internet-connection)).
   hasInternetConnection: ""
   # -- Define clean URLs without /index.php (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-clean-urls-without-index-php)).
-  # @default -- {{ .Values.owncloud.subUrl }}
+  # @default -- `{{ .Values.owncloud.subUrl }}`
   htaccessRewriteBase: ""
   # -- Define how to relax same site cookie settings (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-how-to-relax-same-site-cookie-settings)).
   httpCookieSamesite: ""
@@ -151,7 +151,7 @@ owncloud:
     # -- Define the log date format (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-date-format)).
     dateFormat: ""
     # -- Define the log path (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-path)).
-    # @default -- {{ .Values.owncloud.volume.files }}/owncloud.log
+    # @default -- `{{ .Values.owncloud.volume.files }}/owncloud.log`
     file: ""
     # -- Define the log level (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-log-level)).
     level: ""
@@ -229,7 +229,7 @@ owncloud:
     # -- Enabled or disables the objectstore configuration.
     enabled: false
     # -- Endpoint of the objectstore provider (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
-    # @default -- s3-{{ .Values.owncloud.objectstore.region }}.amazonaws.com
+    # @default -- `s3-{{ .Values.owncloud.objectstore.region }}.amazonaws.com`
     endpoint: ""
     # -- Access key for the objectstore (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/files/external_storage/s3_compatible_object_storage_as_primary.html)).
     key: ""
@@ -244,7 +244,7 @@ owncloud:
   # -- Define ownCloud operation modes (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-owncloud-operation-modes)).
   operationMode: ""
   # -- Override cli URL (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-cli-url)).
-  # @default -- {{ .Values.owncloud.protocol }}://{{ .Values.owncloud.domain }}{{ .Values.owncloud.subUrl }}
+  # @default -- `{{ .Values.owncloud.protocol }}://{{ .Values.owncloud.domain }}{{ .Values.owncloud.subUrl }}`
   overwriteCliUrl: ""
   # -- Override condition for the remote IP address with a regular expression (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#override-condition-for-the-remote-ip-address-with-a-regular-expression)).
   overwriteCondAddr: ""
@@ -331,7 +331,7 @@ owncloud:
     # -- Sets PHP option `session.save_handler`.
     saveHandler: "files"
     # -- Sets PHP option `session.save_path`. Only used if `owncloud.session.saveHandler=file`.
-    # @default -- {{ .Values.owncloud.volume.sessions }}
+    # @default -- `{{ .Values.owncloud.volume.sessions }}`
     savePath: ""
   # -- Define a default folder for shared files and folders other than root (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-a-default-folder-for-shared-files-and-folders-other-than-root)).
   shareFolder: ""
@@ -382,18 +382,18 @@ owncloud:
   versionHide: ""
   volume:
     # -- Base directory used to store custom installed apps.
-    # @default -- {{ .Values.owncloud.volume.root }}/apps
+    # @default -- `{{ .Values.owncloud.volume.root }}/apps`
     apps: "/mnt/data/apps"
     # -- Base directory used to store the ownCloud configuration.
-    # @default -- {{ .Values.owncloud.volume.root }}/config
+    # @default -- `{{ .Values.owncloud.volume.root }}/config`
     config: "/mnt/data/config"
     # -- Define the directory where user files are stored (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-directory-where-user-files-are-stored)).
-    # @default -- {{ .Values.owncloud.volume.root }}/files
+    # @default -- `{{ .Values.owncloud.volume.root }}/files`
     files: "/mnt/data/files"
     # -- Base data directory for ownCloud.
     root: "/mnt/data"
     # -- Base directory to store session files. Only used if `OWNCLOUD_SESSION_SAVE_HANDLER=file`.
-    # @default -- {{ .Values.owncloud.volume.root }}/sessions
+    # @default -- `{{ .Values.owncloud.volume.root }}/sessions`
     sessions: "/mnt/data/sessions"
   configExtra: {}
 
