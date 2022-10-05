@@ -434,9 +434,9 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: owncloud-data
-              mountPath: {{ .Values.owncloud.volume_root }}
+              mountPath: {{ .Values.owncloud.volume.root }}
             - name: config-volume
-              mountPath: {{ .Values.owncloud.volume_config }}/configMap
+              mountPath: {{ .Values.owncloud.volume.config }}/configMap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

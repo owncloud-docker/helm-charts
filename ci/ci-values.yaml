@@ -1,66 +1,10 @@
 ---
-image:
-  repository: docker.io/owncloud/server
-  tag: ""
-  sha: ""
-  pullPolicy: IfNotPresent
-
-imagePullSecrets: {}
-
-nameOverride: ""
-fullnameOverride: ""
-
-owncloud:
-  domain: owncloud.chart.example
-  username: owncloud
-  password: owncloud
-  volume_apps: /mnt/data/apps
-  volume_config: /mnt/data/config
-  volume_files: /mnt/data/files
-  volume_root: /mnt/data
-  configExtra: {}
-
-mariadb:
-  enabled: false
-
-redis:
-  enabled: false
-
-externalDatabase:
-  type: ""
-  host: ""
-  port: 3306
-  name: owncloud
-  user: owncloud
-  password: owncloud
-
 persistence:
   enabled: false
-
-replicas: 1
-
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
-
-podAnnotations: {}
-
-podSecurityContext: {}
-
-securityContext:
-  readOnlyRootFilesystem: false
 
 service:
   type: NodePort
   port: 8080
-
-ingress:
-  enabled: false
-  ingressClassName: ""
-  annotations: {}
-  labels: {}
-  tls: []
 
 initResources:
   limits:
@@ -77,13 +21,3 @@ resources:
   requests:
     cpu: 100m
     memory: 512Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 10
-  metrics: []
-
-nodeSelector: {}
-affinity: {}
-tolerations: []

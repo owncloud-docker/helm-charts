@@ -83,7 +83,7 @@ def kubernetes(ctx, config):
                 "name": "helm-template",
                 "image": "owncloudci/alpine",
                 "commands": [
-                    "helm template charts/owncloud -f ci/ci-values.yaml > ci/owncloud-ci-templated.yaml",
+                    "helm template charts/owncloud --values ci/ci-values.yaml > ci/owncloud-ci-templated.yaml",
                 ],
                 "depends_on": ["helm-lint"],
             },
@@ -166,7 +166,7 @@ def install(ctx):
         "image": "owncloudci/alpine",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
-            "helm install -f ci/ci-values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
+            "helm install --values ci/ci-values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
         ],
     }]
 
