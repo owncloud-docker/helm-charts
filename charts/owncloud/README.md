@@ -5,12 +5,15 @@
 ![AppVersion: 10.11.0](https://img.shields.io/badge/AppVersion-10.11.0-informational?style=flat)
 
 ownCloud Server Helm chart
+
 **Homepage:** <https://owncloud.com/>
+
 ## Source Code
 
 * <https://github.com/owncloud-docker/helm-charts>
 * <https://github.com/owncloud-docker/server>
 * <https://github.com/owncloud/core>
+
 ## Requirements
 
 Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
@@ -93,7 +96,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.configExtra | object | `{}` |  |
 | owncloud.corsAllowedDomains | string | `""` | Define global list of CORS domains (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-global-list-of-cors-domains)). |
 | owncloud.cronLog | string | `""` | Define logging if cron ran successfully(see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-logging-if-cron-ran-successfully)) |
-| owncloud.crondEnabled | string | `"true"` | Enable or disable the system cron service. Required for ` .Values.owncloud.backgroundMode: "cron"`. |
+| owncloud.crondEnabled | string | `"true"` | Enable or disable the system cron service. Required for `.Values.owncloud.backgroundMode: "cron"`. |
 | owncloud.crondSchedule | string | `"*/1 * * * *"` | Cron schedule to run ownCloud background jobs. |
 | owncloud.csrfDisabled | string | `""` | Enable or disable ownCloud’s built-in CSRF protection mechanism (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-ownclouds-built-in-csrf-protection-mechanism)). |
 | owncloud.davChunkBaseDir | string | `""` | Define the DAV chunk base directory (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-dav-chunk-base-directory)). |

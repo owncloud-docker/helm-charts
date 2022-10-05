@@ -30,7 +30,7 @@ owncloud:
   adminUsername: "owncloud"
   # -- Allow or disallow users to change their display names (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#allow-or-disallow-users-to-change-their-display-names)).
   allowUserToChangeDisplayName: ""
-  apps: 
+  apps:
     # -- List of deprecated apps that must be removed (automatically) before performing an ownCloud upgrade to avoid upgrade issues.
     deprecated: ""
     # -- List of apps to disable on container startup.
@@ -61,7 +61,7 @@ owncloud:
   commentsManagerFactory: ""
   # -- Define global list of CORS domains (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-global-list-of-cors-domains)).
   corsAllowedDomains: ""
-  # -- Enable or disable the system cron service. Required for ` .Values.owncloud.backgroundMode: "cron"`.
+  # -- Enable or disable the system cron service. Required for `.Values.owncloud.backgroundMode: "cron"`.
   crondEnabled: "true"
   # -- Cron schedule to run ownCloud background jobs.
   crondSchedule: "*/1 * * * *"
