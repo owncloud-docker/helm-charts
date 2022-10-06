@@ -456,5 +456,5 @@ spec:
             claimName: {{ include "owncloud.fullname" . }}
           {{- end }}
         - name: config-volume
-          configMap:
-            name: owncloud-config
+          secret:
+            secretName: owncloud-config
