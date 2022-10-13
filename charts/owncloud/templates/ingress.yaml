@@ -17,7 +17,7 @@ spec:
   {{- with .Values.ingress.tls }}
   tls:
     {{- toYaml . | nindent 4 }}
-  {{- end -}}
+  {{- end }}
   rules:
     - host: "{{ .Values.owncloud.domain }}"
       http:
