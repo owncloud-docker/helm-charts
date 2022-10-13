@@ -401,6 +401,7 @@ persistence:
   # -- Enables persistence.
   enabled: true
   owncloud:
+    storageClassName: standard
     accessMode:
       - ReadWriteOnce
     size: 20Gi
