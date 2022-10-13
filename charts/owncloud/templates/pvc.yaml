@@ -25,5 +25,5 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.owncloud.size }}
-  storageClassName: standard
+  storageClassName: {{ .Values.persistence.owncloud.storageClassName }}
 {{- end -}}
