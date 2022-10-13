@@ -256,6 +256,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | persistence.owncloud.accessMode[0] | string | `"ReadWriteOnce"` |  |
 | persistence.owncloud.nfs | object | `{}` |  |
 | persistence.owncloud.size | string | `"20Gi"` |  |
+| persistence.owncloud.storageClassName | string | `"standard"` |  |
 | podAnnotations | object | `{}` | Annotations to attach metadata to the Pod. |
 | podSecurityContext | object | `{}` | Security settings for the Pod. |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
