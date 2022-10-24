@@ -17,8 +17,9 @@ spec:
       {{- include "owncloud.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ print .Values.owncloud.configExtra | sha256sum }}
+    {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
@@ -34,7 +35,7 @@ spec:
       initContainers:
         - name: "init-{{ .Chart.Name }}"
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ['sh', '-c', "mkdir -p {{ .Values.owncloud.volume.apps }} {{ .Values.owncloud.volume.config }} {{ .Values.owncloud.volume.config }}/configMap {{ .Values.owncloud.volume.files }} {{ .Values.owncloud.volume.sessions }}; chown -R www-data:www-data {{ .Values.owncloud.volume.root }}; ln -sf {{ .Values.owncloud.volume.config }}/configMap/configmap.config.php {{ .Values.owncloud.volume.config }}/configmap.config.php"]
+          command: ['sh', '-c', "mkdir -p {{ .Values.owncloud.volume.apps }} {{ .Values.owncloud.volume.config }} {{ .Values.owncloud.volume.files }} {{ .Values.owncloud.volume.sessions }}; chown -R www-data:www-data {{ .Values.owncloud.volume.root }}"]
           volumeMounts:
             - name: owncloud-data
               mountPath: {{ .Values.owncloud.volume.root }}
@@ -438,7 +439,8 @@ spec:
             - name: owncloud-data
               mountPath: {{ .Values.owncloud.volume.root }}
             - name: config-volume
-              mountPath: {{ .Values.owncloud.volume.config }}/configMap
+              mountPath: {{ .Values.owncloud.volume.config }}/configmap.config.php
+              subPath: configmap.config.php
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
