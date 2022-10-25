@@ -123,7 +123,7 @@ spec:
             - name: OWNCLOUD_DOMAIN
               value: {{ .Values.owncloud.domain | quote }}
             - name: OWNCLOUD_TRUSTED_DOMAINS
-              value: {{ include "owncloud.trustedDomains" . }}
+              value: {{ .Values.owncloud.trustedDomains | quote }}
             - name: OWNCLOUD_ENABLED_PREVIEW_PROVIDERS
               value: {{ .Values.owncloud.enabledPreviewProviders | quote }}
             - name: OWNCLOUD_ENABLE_AVATARS
