@@ -31,6 +31,20 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+ownCloud trusted domains list.
+*/}}
+{{- define "owncloud.trustedDomains" -}}
+{{- $domains := list -}}
+{{- with .Values.owncloud.domain -}}
+{{- $domains = append $domains . -}}
+{{- end -}}
+{{- with .Values.owncloud.trustedDomains -}}
+{{- $domains = concat $domains . -}}
+{{- end -}}
+{{- $domains | join "," }}
+{{- end }}
+
+{{/*
 Common labels
 */}}
 {{- define "owncloud.labels" -}}
