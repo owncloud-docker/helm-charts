@@ -257,7 +257,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | persistence.owncloud.accessMode[0] | string | `"ReadWriteOnce"` |  |
 | persistence.owncloud.nfs | object | `{}` |  |
 | persistence.owncloud.size | string | `"20Gi"` |  |
-| persistence.owncloud.storageClassName | string | `"standard"` |  |
+| persistence.owncloud.storageClassName | string | `""` | owncloud data Persistent Volume Storage Class. If defined, `storageClassName` of the PVC is set to the value defined here. If set to "-", `storageClassName`of the PVC is set to `""`, which disables dynamic provisioning. If undefined (the default) or set to null, no `storageClassName` spec is set, choosing the default provisioner. |
 | podAnnotations | object | `{}` | Annotations to attach metadata to the Pod. |
 | podSecurityContext | object | `{}` | Security settings for the Pod. |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
