@@ -25,5 +25,11 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.owncloud.size }}
+  {{- if .Values.persistence.owncloud.storageClassName }}
+  {{- if (eq "-" .Values.persistence.owncloud.storageClassName) }}
+  storageClassName: ""
+  {{- else }}
   storageClassName: {{ .Values.persistence.owncloud.storageClassName }}
+  {{- end }}
+  {{- end }}
 {{- end -}}
