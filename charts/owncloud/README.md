@@ -263,11 +263,9 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.volume.root | string | `"/mnt/data"` | Base data directory for ownCloud. |
 | owncloud.volume.sessions | string | `{{ .Values.owncloud.volume.root }}/sessions` | Base directory to store session files. Only used if `OWNCLOUD_SESSION_SAVE_HANDLER=file`. |
 | persistence.enabled | bool | `true` | Enables persistence. |
-| persistence.owncloud.accessMode | list | `["ReadWriteOnce"]` | Please set this to ReadWriteMany if NFS is used |
+| persistence.owncloud.accessMode[0] | string | `"ReadWriteOnce"` |  |
 | persistence.owncloud.annotations | object | `{"helm.sh/resource-policy":"keep"}` | Set annotations on the owncloud PVC. |
-| persistence.owncloud.nfs.enabled | bool | `false` |  |
-| persistence.owncloud.nfs.patch | string | `""` |  |
-| persistence.owncloud.nfs.server | string | `""` |  |
+| persistence.owncloud.nfs | object | `{}` |  |
 | persistence.owncloud.size | string | `"20Gi"` |  |
 | persistence.owncloud.storageClassName | string | `""` | owncloud data Persistent Volume Storage Class. If defined, `storageClassName` of the PVC is set to the value defined here. If set to "-", `storageClassName`of the PVC is set to `""`, which disables dynamic provisioning. If undefined (the default) or set to null, no `storageClassName` spec is set, choosing the default provisioner. |
 | podAnnotations | object | `{}` | Annotations to attach metadata to the Pod. |
@@ -280,7 +278,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | securityContext.readOnlyRootFilesystem | bool | `false` | Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud 10. |
 | service.annotations | object | `{}` | Service annotations. |
 | service.port | int | `8080` |  |
-| service.type | string | `"ClusterIP"` |  |
+| service.type | string | `"LoadBalancer"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account. |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created or not. |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and `create` is set to `true`, a name is generated using the fullname template. |
