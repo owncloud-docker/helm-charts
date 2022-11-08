@@ -264,6 +264,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | resources | object | `{}` | Resources to apply to all services. |
 | securityContext | object | `{"readOnlyRootFilesystem":false}` | Security settings for the Container. |
 | securityContext.readOnlyRootFilesystem | bool | `false` | Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud 10. |
+| service.annotations | object | `{}` | Service annotations. |
 | service.port | int | `8080` |  |
 | service.type | string | `"LoadBalancer"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account. |
