@@ -18,6 +18,11 @@ ownCloud Server Helm chart
 
 Kubernetes: `~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0 || ~1.25.0`
 
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | mariadb | 11.3.3 |
+| https://charts.bitnami.com/bitnami | redis | 17.3.7 |
+
 ## Usage
 
 ### Get Repo Info
@@ -72,6 +77,10 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | ingress.labels | object | `{}` | Labels for the ingress. |
 | ingress.tls | list | `[]` | Ingress TLS configuration. |
 | initResources | object | `{}` | Resources to apply to all init containers. |
+| mariadb.auth.database | string | `"owncloud"` |  |
+| mariadb.auth.password | string | `"owncloud"` |  |
+| mariadb.auth.username | string | `"owncloud"` |  |
+| mariadb.enabled | bool | `false` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` | Simple node selection constraint. |
 | owncloud.accesslogLocation | string | /dev/stdout | Location of the access log. |
@@ -254,20 +263,24 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.volume.root | string | `"/mnt/data"` | Base data directory for ownCloud. |
 | owncloud.volume.sessions | string | `{{ .Values.owncloud.volume.root }}/sessions` | Base directory to store session files. Only used if `OWNCLOUD_SESSION_SAVE_HANDLER=file`. |
 | persistence.enabled | bool | `true` | Enables persistence. |
-| persistence.owncloud.accessMode[0] | string | `"ReadWriteOnce"` |  |
+| persistence.owncloud.accessMode | list | `["ReadWriteOnce"]` | Please set this to ReadWriteMany if NFS is used |
 | persistence.owncloud.annotations | object | `{"helm.sh/resource-policy":"keep"}` | Set annotations on the owncloud PVC. |
-| persistence.owncloud.nfs | object | `{}` |  |
+| persistence.owncloud.nfs.enabled | bool | `false` |  |
+| persistence.owncloud.nfs.patch | string | `""` |  |
+| persistence.owncloud.nfs.server | string | `""` |  |
 | persistence.owncloud.size | string | `"20Gi"` |  |
 | persistence.owncloud.storageClassName | string | `""` | owncloud data Persistent Volume Storage Class. If defined, `storageClassName` of the PVC is set to the value defined here. If set to "-", `storageClassName`of the PVC is set to `""`, which disables dynamic provisioning. If undefined (the default) or set to null, no `storageClassName` spec is set, choosing the default provisioner. |
 | podAnnotations | object | `{}` | Annotations to attach metadata to the Pod. |
 | podSecurityContext | object | `{}` | Security settings for the Pod. |
+| redis.auth.password | string | `""` |  |
+| redis.enabled | bool | `false` |  |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
 | resources | object | `{}` | Resources to apply to all services. |
 | securityContext | object | `{"readOnlyRootFilesystem":false}` | Security settings for the Container. |
 | securityContext.readOnlyRootFilesystem | bool | `false` | Mounts the container's root filesystem as read-only. Currently only `false` is supported by ownCloud 10. |
 | service.annotations | object | `{}` | Service annotations. |
 | service.port | int | `8080` |  |
-| service.type | string | `"LoadBalancer"` |  |
+| service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account. |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created or not. |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and `create` is set to `true`, a name is generated using the fullname template. |
