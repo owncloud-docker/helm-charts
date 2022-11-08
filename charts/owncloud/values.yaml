@@ -434,6 +434,9 @@ securityContext:
 service:
   type: LoadBalancer
   port: 8080
+  # -- Service annotations.
+  annotations: {}
+
 
 ingress:
   # -- Enables the Ingress.
