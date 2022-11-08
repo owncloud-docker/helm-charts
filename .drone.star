@@ -222,6 +222,8 @@ def release(ctx):
                 "image": "quay.io/helmpack/chart-releaser",
                 "commands": [
                     "sed -i 's/version: 0.0.0-devel/version: %s/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "").replace("v", "") if ctx.build.event == "tag" else "0.0.0-devel"),
+                    "helm repo add bitnami https://charts.bitnami.com/bitnami",
+                    "helm repo update",
                     "cr package charts/owncloud/",
                 ],
             },
