@@ -76,6 +76,7 @@ def kubernetes(ctx, config):
                 "name": "helm-lint",
                 "image": "owncloudci/alpine",
                 "commands": [
+                    "helm dependency update charts/owncloud/",
                     "helm lint --strict charts/owncloud",
                 ],
             },
