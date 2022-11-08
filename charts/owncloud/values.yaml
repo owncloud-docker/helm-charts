@@ -409,6 +409,9 @@ persistence:
     nfs: {}
     # -- owncloud data Persistent Volume Storage Class. If defined, `storageClassName` of the PVC is set to the value defined here. If set to "-", `storageClassName`of the PVC is set to `""`, which disables dynamic provisioning. If undefined (the default) or set to null, no `storageClassName` spec is set, choosing the default provisioner.
     storageClassName: ""
+    # -- Set annotations on the owncloud PVC
+    annotations: 
+      "helm.sh/resource-policy": keep
 
 # -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
 replicas: 1
