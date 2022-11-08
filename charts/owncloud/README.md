@@ -255,6 +255,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.volume.sessions | string | `{{ .Values.owncloud.volume.root }}/sessions` | Base directory to store session files. Only used if `OWNCLOUD_SESSION_SAVE_HANDLER=file`. |
 | persistence.enabled | bool | `true` | Enables persistence. |
 | persistence.owncloud.accessMode[0] | string | `"ReadWriteOnce"` |  |
+| persistence.owncloud.annotations | object | `{"helm.sh/resource-policy":"keep"}` | Set annotations on the owncloud PVC. |
 | persistence.owncloud.nfs | object | `{}` |  |
 | persistence.owncloud.size | string | `"20Gi"` |  |
 | persistence.owncloud.storageClassName | string | `""` | owncloud data Persistent Volume Storage Class. If defined, `storageClassName` of the PVC is set to the value defined here. If set to "-", `storageClassName`of the PVC is set to `""`, which disables dynamic provisioning. If undefined (the default) or set to null, no `storageClassName` spec is set, choosing the default provisioner. |
