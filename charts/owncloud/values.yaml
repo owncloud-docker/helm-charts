@@ -496,3 +496,18 @@ affinity: {}
 # One or more taints need to be applied to a node to instruct this node to not accept any pods
 # that do not tolerate the taints.
 tolerations: []
+
+## MariaDB chart configuration, see https://artifacthub.io/packages/helm/bitnami/mariadb
+mariadb:
+  enabled: false
+
+  auth:
+    database: owncloud
+    username: owncloud
+    password: owncloud
+
+## Redis chart configuration, see https://artifacthub.io/packages/helm/bitnami/redis
+redis:
+  enabled: false
+  auth:
+    password: ""

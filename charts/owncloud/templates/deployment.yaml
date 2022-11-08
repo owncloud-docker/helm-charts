@@ -101,20 +101,33 @@ spec:
               value: {{ .Values.owncloud.davEnableAsync | quote }}
             - name: OWNCLOUD_DB_FAIL
               value: {{ .Values.owncloud.db.fail | quote }}
+            - name: OWNCLOUD_DB_PREFIX
+              value: {{ .Values.owncloud.db.prefix | quote }}
+            - name: OWNCLOUD_DB_TIMEOUT
+              value: {{ .Values.owncloud.db.timeout | quote }}
+            {{- if .Values.mariadb.enabled }}
+            - name: OWNCLOUD_DB_HOST
+              value: {{ template "mariadb.primary.fullname" .Subcharts.mariadb }}
+            - name: OWNCLOUD_DB_NAME
+              value: {{ .Values.mariadb.auth.database | quote }}
+            - name: OWNCLOUD_DB_PASSWORD
+              value: {{ .Values.mariadb.auth.password | quote }}
+            - name: OWNCLOUD_DB_TYPE
+              value: "mysql"
+            - name: OWNCLOUD_DB_USERNAME
+              value: {{ .Values.mariadb.auth.username | quote }}
+            {{- else }}
             - name: OWNCLOUD_DB_HOST
               value: {{ .Values.owncloud.db.host | quote }}
             - name: OWNCLOUD_DB_NAME
               value: {{ .Values.owncloud.db.name | quote }}
             - name: OWNCLOUD_DB_PASSWORD
               value: {{ .Values.owncloud.db.password | quote }}
-            - name: OWNCLOUD_DB_PREFIX
-              value: {{ .Values.owncloud.db.prefix | quote }}
-            - name: OWNCLOUD_DB_TIMEOUT
-              value: {{ .Values.owncloud.db.timeout | quote }}
             - name: OWNCLOUD_DB_TYPE
               value: {{ .Values.owncloud.db.type | quote }}
             - name: OWNCLOUD_DB_USERNAME
               value: {{ .Values.owncloud.db.username | quote }}
+            {{- end }}
             - name: OWNCLOUD_DEBUG
               value: {{ .Values.owncloud.debug | quote }}
             - name: OWNCLOUD_DEFAULT_APP
@@ -311,15 +324,28 @@ spec:
               value: {{ .Values.owncloud.proxyUserpwd | quote }}
             - name: OWNCLOUD_QUOTA_INCLUDE_EXTERNAL_STORAGE
               value: {{ .Values.owncloud.quotaIncludeExternalStorage | quote }}
-            {{- if .Values.owncloud.redis.enabled }}
-            - name: OWNCLOUD_REDIS_DB
-              value: {{ .Values.owncloud.redis.db | quote }}
+            {{- if or .Values.owncloud.redis.enabled .Values.redis.enabled }}
             - name: OWNCLOUD_REDIS_ENABLED
               value: "true"
+            - name: OWNCLOUD_REDIS_DB
+              value: {{ .Values.owncloud.redis.db | quote }}
             - name: OWNCLOUD_REDIS_FAILOVER_MODE
               value: {{ .Values.owncloud.redis.failoverMode | quote }}
+            {{- else }}
+            - name: OWNCLOUD_REDIS_ENABLED
+              value: "false"
+            {{- end }}
+            {{- if .Values.redis.enabled }}
+            - name: OWNCLOUD_REDIS_HOST
+              value: {{ .Release.Name }}-redis-master
+            {{- else }}
             - name: OWNCLOUD_REDIS_HOST
               value: {{ .Values.owncloud.redis.host | quote }}
+            {{- end }}
+            {{- if .Values.redis.auth.password }}
+            - name: OWNCLOUD_REDIS_PASSWORD
+              value: {{ .Values.redis.auth.password | quote }}
+            {{- else }}
             - name: OWNCLOUD_REDIS_PASSWORD
               value: {{ .Values.owncloud.redis.password | quote }}
             {{- end }}
@@ -349,8 +375,14 @@ spec:
               value: {{ .Values.owncloud.session.lifetime | quote }}
             - name: OWNCLOUD_SESSION_FORCED_LOGOUT_TIMEOUT
               value: {{ .Values.owncloud.session.forcedLogoutTimeout | quote }}
+            {{- if and (or .Values.redis.enabled .Values.redis.enabled) (eq .Values.owncloud.session.saveHandler "files") }}
+            - name: OWNCLOUD_SESSION_SAVE_HANDLER
+            # CHANGEME
+              value: {{ .Values.owncloud.session.saveHandler | quote }}
+            {{- else }}
             - name: OWNCLOUD_SESSION_SAVE_HANDLER
               value: {{ .Values.owncloud.session.saveHandler | quote }}
+            {{- end }}
             - name: OWNCLOUD_SESSION_SAVE_PATH
               value: {{ .Values.owncloud.session.savePath | quote }}
             - name: OWNCLOUD_SHARE_FOLDER
