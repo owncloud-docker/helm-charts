@@ -220,6 +220,9 @@ def release(ctx):
             {
                 "name": "helm-repos",
                 "image": "owncloudci/alpine",
+                "environment": {
+                    "HELM_CONFIG_HOME": "/drone/src/.helm",
+                },
                 "commands": [
                     "helm repo add bitnami https://charts.bitnami.com/bitnami",
                     "helm repo update",
@@ -228,6 +231,9 @@ def release(ctx):
             {
                 "name": "helmpack-package",
                 "image": "quay.io/helmpack/chart-releaser",
+                "environment": {
+                    "HELM_CONFIG_HOME": "/drone/src/.helm",
+                },
                 "commands": [
                     "sed -i 's/version: 0.0.0-devel/version: %s/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "").replace("v", "") if ctx.build.event == "tag" else "0.0.0-devel"),
                     "cr package charts/owncloud/",
