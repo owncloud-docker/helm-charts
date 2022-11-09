@@ -112,7 +112,7 @@ owncloud:
   # -- Rewrites OpenID Connect wellknown URL `.well-known/openid-configuration` to the ownCloud OIDC configuration endpoint (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/user/oidc/oidc.html#set-up-service-discovery)).
   enableOidcRewriteUrl: "false"
   # -- Enable or disable loading of files from `/etc/entrypoint.d`. It is recommended to keep the default.
-  entrypointInitialized: "true"
+  entrypointInitialized: ""
   # -- Output location for the Apache error log.
   errorlogLocation: "/dev/stderr"
   # -- Define excluded directories (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-excluded-directories)).
