@@ -118,7 +118,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.enableOidcRewriteUrl | string | `"false"` | Rewrites OpenID Connect wellknown URL `.well-known/openid-configuration` to the ownCloud OIDC configuration endpoint (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/user/oidc/oidc.html#set-up-service-discovery)). |
 | owncloud.enablePreviews | string | `""` | Enable preview generation (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-preview-generation)). |
 | owncloud.enabledPreviewProviders | string | `""` | Define preview providers (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-preview-providers)). |
-| owncloud.entrypointInitialized | string | `"true"` | Enable or disable loading of files from `/etc/entrypoint.d`. It is recommended to keep the default. |
+| owncloud.entrypointInitialized | string | `""` | Enable or disable loading of files from `/etc/entrypoint.d`. It is recommended to keep the default. |
 | owncloud.errorlogLocation | string | `"/dev/stderr"` | Output location for the Apache error log. |
 | owncloud.excludedDirectories | string | `""` | Define excluded directories (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-excluded-directories)). |
 | owncloud.filelockingEnabled | string | `"true"` | Enable transactional file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-transactional-file-locking)). |
