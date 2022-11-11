@@ -324,7 +324,7 @@ spec:
               value: {{ .Values.owncloud.proxyUserpwd | quote }}
             - name: OWNCLOUD_QUOTA_INCLUDE_EXTERNAL_STORAGE
               value: {{ .Values.owncloud.quotaIncludeExternalStorage | quote }}
-            {{- if or .Values.owncloud.redis.enabled .Values.redis.enabled }}
+            {{- if or .Values.owncloud.redis.enabled (index .Values "redis-cluster" "enabled") }}
             - name: OWNCLOUD_REDIS_ENABLED
               value: "true"
             - name: OWNCLOUD_REDIS_DB
@@ -335,16 +335,16 @@ spec:
             - name: OWNCLOUD_REDIS_ENABLED
               value: "false"
             {{- end }}
-            {{- if .Values.redis.enabled }}
+            {{- if (index .Values "redis-cluster" "enabled") }}
             - name: OWNCLOUD_REDIS_HOST
-              value: {{ .Release.Name }}-redis-master
+              value: ""
             {{- else }}
             - name: OWNCLOUD_REDIS_HOST
               value: {{ .Values.owncloud.redis.host | quote }}
             {{- end }}
-            {{- if .Values.redis.auth.password }}
+            {{- if (index .Values "redis-cluster" "password") }}
             - name: OWNCLOUD_REDIS_PASSWORD
-              value: {{ .Values.redis.auth.password | quote }}
+              value: {{ (index .Values "redis-cluster" "password") | quote }}
             {{- else }}
             - name: OWNCLOUD_REDIS_PASSWORD
               value: {{ .Values.owncloud.redis.password | quote }}
@@ -353,8 +353,13 @@ spec:
               value: {{ .Values.owncloud.redis.port | quote }}
             - name: OWNCLOUD_REDIS_READ_TIMEOUT
               value: {{ .Values.owncloud.redis.readTimeout | quote }}
+            {{- if (index .Values "redis-cluster" "enabled") }}
+            - name: OWNCLOUD_REDIS_SEEDS
+              value: "{{ $count := (index .Values "redis-cluster" "cluster" "nodes") | int }}{{ range $i, $v := until $count }}{{if $i}},{{end}}{{ include "common.names.fullname" (index $.Subcharts "redis-cluster") }}-{{ $i }}.{{ template "common.names.fullname" (index $.Subcharts "redis-cluster") }}-headless:{{ (index $.Values "redis-cluster" "redis" "containerPorts" "redis") }}{{ end }}"
+            {{- else }}
             - name: OWNCLOUD_REDIS_SEEDS
               value: {{ .Values.owncloud.redis.seeds | quote }}
+            {{- end }}
             - name: OWNCLOUD_REDIS_SESSION_LOCKING_ENABLED
               value: {{ .Values.owncloud.redis.sessionLockingEnabled | quote }}
             - name: OWNCLOUD_REDIS_SESSION_LOCK_RETRIES
@@ -375,16 +380,22 @@ spec:
               value: {{ .Values.owncloud.session.lifetime | quote }}
             - name: OWNCLOUD_SESSION_FORCED_LOGOUT_TIMEOUT
               value: {{ .Values.owncloud.session.forcedLogoutTimeout | quote }}
-            {{- if and (or .Values.redis.enabled .Values.redis.enabled) (eq .Values.owncloud.session.saveHandler "files") }}
+            {{- if and (or .Values.owncloud.redis.enabled (index .Values "redis-cluster" "enabled")) (eq .Values.owncloud.session.saveHandler "files") }}
             - name: OWNCLOUD_SESSION_SAVE_HANDLER
-            # CHANGEME
-              value: {{ .Values.owncloud.session.saveHandler | quote }}
+              value: "rediscluster"
+            {{- if (index .Values "redis-cluster" "password") }}
+            - name: OWNCLOUD_SESSION_SAVE_PATH
+              value: "{{ $count := (index .Values "redis-cluster" "cluster" "nodes") | int }}{{ range $i, $v := until $count }}{{if $i}}&{{end}}seed[]={{ include "common.names.fullname" (index $.Subcharts "redis-cluster") }}-{{ $i }}.{{ template "common.names.fullname" (index $.Subcharts "redis-cluster") }}-headless:{{ (index $.Values "redis-cluster" "redis" "containerPorts" "redis") }}{{ end }}?auth={{ (index .Values "redis-cluster" "password") }}"
+            {{- else }}
+            - name: OWNCLOUD_SESSION_SAVE_PATH
+              value: "{{ $count := (index .Values "redis-cluster" "cluster" "nodes") | int }}{{ range $i, $v := until $count }}{{if $i}}&{{end}}seed[]={{ include "common.names.fullname" (index $.Subcharts "redis-cluster") }}-{{ $i }}.{{ template "common.names.fullname" (index $.Subcharts "redis-cluster") }}-headless:{{ (index $.Values "redis-cluster" "redis" "containerPorts" "redis") }}{{ end }}"
+            {{- end }}
             {{- else }}
             - name: OWNCLOUD_SESSION_SAVE_HANDLER
               value: {{ .Values.owncloud.session.saveHandler | quote }}
-            {{- end }}
             - name: OWNCLOUD_SESSION_SAVE_PATH
               value: {{ .Values.owncloud.session.savePath | quote }}
+            {{- end }}
             - name: OWNCLOUD_SHARE_FOLDER
               value: {{ .Values.owncloud.shareFolder | quote }}
             - name: OWNCLOUD_SHARING_FEDERATION_ALLOW_HTTP_FALLBACK

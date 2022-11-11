@@ -21,10 +21,10 @@ sources:
   - https://github.com/owncloud-docker/server
   - https://github.com/owncloud/core
 dependencies:
-  - name: redis
-    version: 17.3.7
+  - name: redis-cluster
+    version: 8.2.7
     repository: https://charts.bitnami.com/bitnami
-    condition: redis.enabled
+    condition: redis-cluster.enabled
   - name: mariadb
     version: 11.3.3
     repository: https://charts.bitnami.com/bitnami

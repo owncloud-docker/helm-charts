@@ -1,9 +1,9 @@
 dependencies:
-- name: redis
+- name: redis-cluster
   repository: https://charts.bitnami.com/bitnami
-  version: 17.3.7
+  version: 8.2.7
 - name: mariadb
   repository: https://charts.bitnami.com/bitnami
   version: 11.3.3
-digest: sha256:69289c0136ec75f8ddb97d148973b41ff36a1452cb02049cb2ad6ce933319b19
-generated: "2022-11-02T18:09:01.624589+01:00"
+digest: sha256:2cd414b3f3833c64e8cf7f37a40735e5ea47bb846b570da62476bee1a1953447
+generated: "2022-11-10T11:56:19.532007+01:00"

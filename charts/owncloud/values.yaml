@@ -507,7 +507,7 @@ mariadb:
     password: owncloud
 
 ## Redis chart configuration, see https://artifacthub.io/packages/helm/bitnami/redis
-redis:
+redis-cluster:
   enabled: false
   auth:
     password: ""
