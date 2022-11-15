@@ -388,7 +388,7 @@ spec:
               value: "{{ $count := (index .Values "redis-cluster" "cluster" "nodes") | int }}{{ range $i, $v := until $count }}{{if $i}}&{{end}}seed[]={{ include "common.names.fullname" (index $.Subcharts "redis-cluster") }}-{{ $i }}.{{ template "common.names.fullname" (index $.Subcharts "redis-cluster") }}-headless:{{ (index $.Values "redis-cluster" "redis" "containerPorts" "redis") }}{{ end }}?auth={{ (index .Values "redis-cluster" "password") }}"
             {{- else }}
             - name: OWNCLOUD_SESSION_SAVE_PATH
-              value: "{{ $count := (index .Values "redis-cluster" "cluster" "nodes") | int }}{{ range $i, $v := until $count }}{{if $i}}&{{end}}seed[]={{ include "common.names.fullname" (index $.Subcharts "redis-cluster") }}-{{ $i }}.{{ template "common.names.fullname" (index $.Subcharts "redis-cluster") }}-headless:{{ (index $.Values "redis-cluster" "redis" "containerPorts" "redis") }}{{ end }}"
+              value: "{{ $count := (index .Values "redis-cluster" "cluster" "nodes") | int }}{{ range $i, $v := until $count }}{{if $i}}&{{end}}seed[]={{ include "common.names.fullname" (index $.Subcharts "redis-cluster") }}-{{ $i }}.{{ template "common.names.fullname" (index $.Subcharts "redis-cluster") }}-headless:{{ (index $.Values "redis-cluster" "redis" "containerPorts" "redis") }}{{ end }}&timeout=2&read_timeout=2&failover=error"
             {{- end }}
             {{- else }}
             - name: OWNCLOUD_SESSION_SAVE_HANDLER
