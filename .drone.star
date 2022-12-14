@@ -76,6 +76,7 @@ def kubernetes(ctx, config):
                 "name": "helm-lint",
                 "image": "owncloudci/alpine",
                 "commands": [
+                    "helm dependency update charts/owncloud/",
                     "helm lint --strict charts/owncloud",
                 ],
             },
@@ -166,7 +167,7 @@ def install(ctx):
         "image": "owncloudci/alpine",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
-            "helm install --values ci/ci-values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
+            "helm install --dependency-update --values ci/ci-values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
         ],
     }]
 
@@ -217,8 +218,22 @@ def release(ctx):
                 ],
             },
             {
+                "name": "helm-repos",
+                "image": "owncloudci/alpine",
+                "environment": {
+                    "HELM_CONFIG_HOME": "/drone/src/.helm",
+                },
+                "commands": [
+                    "helm repo add bitnami https://charts.bitnami.com/bitnami",
+                    "helm repo update",
+                ],
+            },
+            {
                 "name": "helmpack-package",
                 "image": "quay.io/helmpack/chart-releaser",
+                "environment": {
+                    "HELM_CONFIG_HOME": "/drone/src/.helm",
+                },
                 "commands": [
                     "sed -i 's/version: 0.0.0-devel/version: %s/g' charts/owncloud/Chart.yaml" % (ctx.build.ref.replace("refs/tags/", "").replace("v", "") if ctx.build.event == "tag" else "0.0.0-devel"),
                     "cr package charts/owncloud/",

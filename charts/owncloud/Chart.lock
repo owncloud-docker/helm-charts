@@ -1,0 +1,9 @@
+dependencies:
+- name: redis-cluster
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.2.7
+- name: mariadb
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.3.3
+digest: sha256:fcbf23bfe0ee10e50d729249a2c6ab4b90180c16be74c65626ca0eae58f292ef
+generated: "2022-11-11T18:30:00.785523+01:00"

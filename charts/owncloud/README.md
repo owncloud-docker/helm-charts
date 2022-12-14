@@ -18,6 +18,11 @@ ownCloud Server Helm chart
 
 Kubernetes: `~1.21.0-0 || ~1.22.0-0 || ~1.23.0-0 || ~1.24.0-0 || ~1.25.0-0`
 
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | mariadb | 11.3.3 |
+| https://charts.bitnami.com/bitnami | redis-cluster | 8.2.7 |
+
 ## Usage
 
 ### Get Repo Info
@@ -72,6 +77,10 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | ingress.labels | object | `{}` | Labels for the ingress. |
 | ingress.tls | list | `[]` | Ingress TLS configuration. |
 | initResources | object | `{}` | Resources to apply to all init containers. |
+| mariadb.auth.database | string | `"owncloud"` |  |
+| mariadb.auth.password | string | `"owncloud"` |  |
+| mariadb.auth.username | string | `"owncloud"` |  |
+| mariadb.enabled | bool | `false` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` | Simple node selection constraint. |
 | owncloud.accesslogLocation | string | /dev/stdout | Location of the access log. |
@@ -261,6 +270,8 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | persistence.owncloud.storageClassName | string | `""` | owncloud data Persistent Volume Storage Class. If defined, `storageClassName` of the PVC is set to the value defined here. If set to "-", `storageClassName`of the PVC is set to `""`, which disables dynamic provisioning. If undefined (the default) or set to null, no `storageClassName` spec is set, choosing the default provisioner. |
 | podAnnotations | object | `{}` | Annotations to attach metadata to the Pod. |
 | podSecurityContext | object | `{}` | Security settings for the Pod. |
+| redis-cluster.auth.password | string | `""` |  |
+| redis-cluster.enabled | bool | `false` |  |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
 | resources | object | `{}` | Resources to apply to all services. |
 | securityContext | object | `{"readOnlyRootFilesystem":false}` | Security settings for the Container. |
