@@ -262,7 +262,7 @@ spec:
               value: {{ .Values.owncloud.objectstore.class | quote }}
             - name: OWNCLOUD_OBJECTSTORE_ENABLED
               value: {{ .Values.owncloud.objectstore.enabled | quote }}
-            - name: "true"
+            - name: OWNCLOUD_OBJECTSTORE_ENDPOINT
               value: {{ .Values.owncloud.objectstore.endpoint | quote }}
             - name: OWNCLOUD_OBJECTSTORE_KEY
               value: {{ .Values.owncloud.objectstore.key | quote }}
