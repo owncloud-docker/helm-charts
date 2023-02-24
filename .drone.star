@@ -83,7 +83,7 @@ def kubernetes(ctx, config):
                 "name": "helm-template",
                 "image": "owncloudci/alpine",
                 "commands": [
-                    "helm template --kube-version %s charts/owncloud --values ci/ci-values.yaml > ci/owncloud-ci-templated.yaml" % config["kubernetes_versions"][0] ,
+                    "helm template --kube-version %s charts/owncloud --values ci/ci-values.yaml > ci/owncloud-ci-templated.yaml" % config["kubernetes_versions"][0],
                 ],
                 "depends_on": ["helm-lint"],
             },
