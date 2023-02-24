@@ -136,7 +136,7 @@ def deployments(ctx):
         "services": [
             {
                 "name": "k3d",
-                "image": "ghcr.io/k3d-io/k3d:5.4.6-dind",
+                "image": "ghcr.io/k3d-io/k3d:5-dind",
                 "privileged": True,
                 "commands": [
                     "nohup dockerd-entrypoint.sh &",
