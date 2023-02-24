@@ -4,11 +4,11 @@ config = {
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
     "kubernetes_versions": [
-        "1.21.0",
         "1.22.0",
         "1.23.0",
         "1.24.0",
         "1.25.0",
+        "1.26.0",
     ],
 }
 
@@ -83,7 +83,7 @@ def kubernetes(ctx, config):
                 "name": "helm-template",
                 "image": "owncloudci/alpine",
                 "commands": [
-                    "helm template charts/owncloud --values ci/ci-values.yaml > ci/owncloud-ci-templated.yaml",
+                    "helm template --kube-version %s charts/owncloud --values ci/ci-values.yaml > ci/owncloud-ci-templated.yaml" % config["kubernetes_versions"][0],
                 ],
                 "depends_on": ["helm-lint"],
             },
@@ -136,7 +136,7 @@ def deployments(ctx):
         "services": [
             {
                 "name": "k3d",
-                "image": "ghcr.io/k3d-io/k3d:5.4.6-dind",
+                "image": "ghcr.io/k3d-io/k3d:5-dind",
                 "privileged": True,
                 "commands": [
                     "nohup dockerd-entrypoint.sh &",
