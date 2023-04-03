@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: owncloud
+  name: {{ template "owncloud.fullname" . }}
   labels:
     {{- include "owncloud.labels" . | nindent 4 }}
   {{- with .Values.service.annotations }}
