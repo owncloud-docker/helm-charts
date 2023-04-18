@@ -37,14 +37,14 @@ def starlark(ctx):
         "steps": [
             {
                 "name": "starlark-format",
-                "image": "owncloudci/bazel-buildifier",
+                "image": "docker.io/owncloudci/bazel-buildifier",
                 "commands": [
                     "buildifier --mode=check .drone.star",
                 ],
             },
             {
                 "name": "starlark-diff",
-                "image": "owncloudci/bazel-buildifier",
+                "image": "docker.io/owncloudci/bazel-buildifier",
                 "commands": [
                     "buildifier --mode=fix .drone.star",
                     "git diff",
@@ -74,14 +74,14 @@ def kubernetes(ctx, config):
         "steps": [
             {
                 "name": "helm-lint",
-                "image": "owncloudci/alpine",
+                "image": "docker.io/owncloudci/alpine",
                 "commands": [
                     "helm lint --strict charts/owncloud",
                 ],
             },
             {
                 "name": "helm-template",
-                "image": "owncloudci/alpine",
+                "image": "docker.io/owncloudci/alpine",
                 "commands": [
                     "helm template --kube-version %s charts/owncloud --values ci/ci-values.yaml > ci/owncloud-ci-templated.yaml" % config["kubernetes_versions"][0],
                 ],
@@ -89,7 +89,7 @@ def kubernetes(ctx, config):
             },
             {
                 "name": "kube-lint",
-                "image": "stackrox/kube-linter",
+                "image": "docker.io/stackrox/kube-linter",
                 "entrypoint": [
                     "/kube-linter",
                     "lint",
@@ -163,7 +163,7 @@ def deployments(ctx):
 def install(ctx):
     return [{
         "name": "helm-install",
-        "image": "owncloudci/alpine",
+        "image": "docker.io/owncloudci/alpine",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "helm install --values ci/ci-values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
@@ -178,14 +178,14 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "jnorwood/helm-docs",
+                "image": "docker.io/jnorwood/helm-docs",
                 "commands": [
                     "/usr/bin/helm-docs --badge-style=flat --template-files=ci/README.md.gotmpl --output-file=README.md",
                 ],
             },
             {
                 "name": "check-unchanged",
-                "image": "owncloudci/alpine",
+                "image": "docker.io/owncloudci/alpine",
                 "commands": [
                     "git diff --exit-code",
                 ],
@@ -209,7 +209,7 @@ def release(ctx):
         "steps": [
             {
                 "name": "changelog",
-                "image": "thegeeklab/git-chglog",
+                "image": "quay.io/thegeeklab/git-chglog",
                 "commands": [
                     "git fetch -tq",
                     "git-chglog --no-color --no-emoji %s" % (ctx.build.ref.replace("refs/tags/", "") if ctx.build.event == "tag" else "--next-tag unreleased unreleased"),
@@ -257,7 +257,7 @@ def release(ctx):
             },
             {
                 "name": "pages",
-                "image": "plugins/gh-pages",
+                "image": "docker.io/plugins/gh-pages",
                 "settings": {
                     "pages_directory": "dist/docs/",
                     "password": {
@@ -288,7 +288,7 @@ def release(ctx):
 def wait(config):
     return [{
         "name": "wait",
-        "image": "bitnami/kubectl:1.25",
+        "image": "docker.io/bitnami/kubectl:1.25",
         "user": "root",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
