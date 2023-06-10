@@ -15,7 +15,7 @@ maintainers:
     email: devops@owncloud.com
     url: https://owncloud.com
 type: application
-kubeVersion: "~1.22.0-0 || ~1.23.0-0 || ~1.24.0-0 || ~1.25.0-0 || ~1.26.0-0" # if this changes, also kubernetesVersions in .drone.star needs to be changed
+kubeVersion: "~1.23.0-0 || ~1.24.0-0 || ~1.25.0-0 || ~1.26.0-0 || ~1.27.0-0" # if this changes, also kubernetesVersions in .drone.star needs to be changed
 sources:
   - https://github.com/owncloud-docker/helm-charts
   - https://github.com/owncloud-docker/server

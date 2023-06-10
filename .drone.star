@@ -4,11 +4,11 @@ config = {
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
     "kubernetes_versions": [
-        "1.22.0",
         "1.23.0",
         "1.24.0",
         "1.25.0",
         "1.26.0",
+        "1.27.0",
     ],
 }
 
