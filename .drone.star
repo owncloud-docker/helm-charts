@@ -259,7 +259,9 @@ def release(ctx):
                 "name": "pages",
                 "image": "docker.io/plugins/gh-pages",
                 "settings": {
-                    "pages_directory": "dist/docs/",
+                    "pages_directory": "dist/docs",
+                    "copy_contents": True,
+                    "delete": True,
                     "password": {
                         "from_secret": "github_token",
                     },
