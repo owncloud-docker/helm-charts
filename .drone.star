@@ -137,7 +137,7 @@ def deployments(ctx):
             {
                 "name": "k3d",
                 "image": "ghcr.io/k3d-io/k3d:5-dind",
-                "privileged": true,
+                "privileged": True,
                 "commands": [
                     "nohup dockerd-entrypoint.sh &",
                     "until docker ps 2>&1 > /dev/null; do sleep 1s; done",
@@ -260,8 +260,8 @@ def release(ctx):
                 "image": "docker.io/plugins/gh-pages",
                 "settings": {
                     "pages_directory": "dist/docs",
-                    "copy_contents": true,
-                    "delete": true,
+                    "copy_contents": True,
+                    "delete": True,
                     "password": {
                         "from_secret": "github_token",
                     },
