@@ -34,7 +34,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: "init-{{ .Chart.Name }}-mkdir"
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ template "owncloud.image" . }}
           command: ['sh', '-c', "mkdir -p {{ .Values.owncloud.volume.apps }} {{ .Values.owncloud.volume.config }} {{ .Values.owncloud.volume.files }} {{ .Values.owncloud.volume.sessions }}"]
           volumeMounts:
             - name: owncloud-data
@@ -43,7 +43,7 @@ spec:
             {{- toYaml .Values.initResources | nindent 12 }}
         {{- if not .Values.skipChown }}
         - name: "init-{{ .Chart.Name }}-chown"
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ template "owncloud.image" . }}
           command: ['sh', '-c', "chown -R www-data:www-data {{ .Values.owncloud.volume.root }}"]
           volumeMounts:
             - name: owncloud-data
