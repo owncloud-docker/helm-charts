@@ -41,7 +41,7 @@ spec:
               mountPath: {{ .Values.owncloud.volume.root }}
           resources:
             {{- toYaml .Values.initResources | nindent 12 }}
-        {{- if not .Values.skipChown }}
+        {{- if not .Values.owncloud.skipChown }}
         - name: "init-{{ .Chart.Name }}-chown"
           image: {{ template "owncloud.image" . }}
           command: ['sh', '-c', "chown -R www-data:www-data {{ .Values.owncloud.volume.root }}"]
@@ -378,7 +378,7 @@ spec:
             - name: OWNCLOUD_SKIP_CHMOD
               value: {{ .Values.owncloud.skipChmod | quote }}
             - name: OWNCLOUD_SKIP_CHOWN
-              value: {{ .Values.owncloud.skipChown | quote }}
+              value: "true"
             - name: OWNCLOUD_SMB_LOGGING_ENABLE
               value: {{ .Values.owncloud.smbLoggingEnable | quote }}
             - name: OWNCLOUD_SQLITE_JOURNAL_MODE
