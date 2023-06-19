@@ -378,7 +378,7 @@ spec:
             - name: OWNCLOUD_SKIP_CHMOD
               value: {{ .Values.owncloud.skipChmod | quote }}
             - name: OWNCLOUD_SKIP_CHOWN
-              value: {{ .Values.owncloud.skipChown | quote }}
+              value: "true"
             - name: OWNCLOUD_SMB_LOGGING_ENABLE
               value: {{ .Values.owncloud.smbLoggingEnable | quote }}
             - name: OWNCLOUD_SQLITE_JOURNAL_MODE

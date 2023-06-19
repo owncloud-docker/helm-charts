@@ -6,6 +6,9 @@ service:
   type: NodePort
   port: 8080
 
+owncloud:
+  skipChown: false
+
 initResources:
   limits:
     cpu: 100m
