@@ -42,7 +42,6 @@ spec:
               - name: config-volume
                 mountPath: {{ .Values.owncloud.volume.config }}/configmap.config.php
                 subPath: configmap.config.php
-          restartPolicy: OnFailure
           volumes:
             - name: owncloud-data
               {{- if .Values.persistence.enabled }}
