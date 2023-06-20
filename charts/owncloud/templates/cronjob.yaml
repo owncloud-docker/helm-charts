@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "owncloud.fullname" . }}
+  name: {{ include "owncloud.fullname" . }}-cronjob
   labels:
     {{- include "owncloud.labels" . | nindent 4 }}
   annotations:
@@ -26,13 +26,14 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-          - name: {{ .Chart.Name }}
+          - name: {{ .Chart.Name }}-cronjob
             securityContext:
               {{- toYaml .Values.securityContext | nindent 14 }}
             image: {{ template "owncloud.image" . }}
             imagePullPolicy: {{ .Values.image.pullPolicy }}
-            env:
-              {{- include "owncloud.environment" . | nindent 14 }}
+            envFrom:
+              - configMapRef:
+                  name: owncloud-env-config
             command: ['/usr/bin/entrypoint', "/usr/bin/owncloud", "/usr/bin/cronjob"]
             resources:
               {{- toYaml .Values.resources | nindent 14 }}
