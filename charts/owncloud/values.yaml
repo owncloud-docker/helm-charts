@@ -66,8 +66,6 @@ owncloud:
   # -- Cron schedule to run ownCloud background jobs.
   crondSchedule: "*/1 * * * *"
   # -- Define logging if cron ran successfully(see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-logging-if-cron-ran-successfully))
-  cronLog: ""
-  # -- Enable or disable ownCloud’s built-in CSRF protection mechanism (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-ownclouds-built-in-csrf-protection-mechanism)).
   csrfDisabled: ""
   # -- Define the DAV chunk base directory (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-dav-chunk-base-directory)).
   davChunkBaseDir: ""

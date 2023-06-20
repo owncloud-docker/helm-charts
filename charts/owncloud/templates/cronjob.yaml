@@ -2,6 +2,11 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "owncloud.fullname" . }}
+  labels:
+    {{- include "owncloud.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/run-as-non-root : "ownCloud does not support non-root containers"
+    ignore-check.kube-linter.io/no-read-only-root-fs : "ownCloud need to write /etc/environment on startup"
 spec:
   schedule: {{ .Values.owncloud.crondSchedule | quote }}
   concurrencyPolicy: Forbid
