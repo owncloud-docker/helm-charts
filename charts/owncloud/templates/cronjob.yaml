@@ -34,7 +34,7 @@ spec:
             envFrom:
               - configMapRef:
                   name: owncloud-env-config
-            command: ['/usr/bin/entrypoint', "/usr/bin/owncloud", "/usr/bin/cronjob"]
+            command: ["/usr/bin/entrypoint", "/usr/bin/owncloud", "/usr/bin/cronjob"]
             resources:
               {{- toYaml .Values.resources | nindent 14 }}
             volumeMounts:
