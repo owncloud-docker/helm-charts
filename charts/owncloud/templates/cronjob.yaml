@@ -1,0 +1,56 @@
+{{- if .Values.owncloud.crondEnabled -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "owncloud.fullname" . }}-cronjob
+  labels:
+    {{- include "owncloud.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/run-as-non-root : "ownCloud does not support non-root containers"
+    ignore-check.kube-linter.io/no-read-only-root-fs : "ownCloud need to write /etc/environment on startup"
+spec:
+  schedule: {{ .Values.owncloud.crondSchedule | quote }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      parallelism: 1
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            checksum/config: {{ print .Values.owncloud.configExtra | sha256sum }}
+        {{- with .Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+          labels:
+            {{- include "owncloud.selectorLabels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: {{ .Chart.Name }}-cronjob
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 14 }}
+            image: {{ template "owncloud.image" . }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            envFrom:
+              - configMapRef:
+                  name: owncloud-env-config
+            command: ["/usr/bin/entrypoint", "/usr/bin/owncloud", "/usr/bin/cronjob"]
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            volumeMounts:
+              - name: owncloud-data
+                mountPath: {{ .Values.owncloud.volume.root }}
+              - name: config-volume
+                mountPath: {{ .Values.owncloud.volume.config }}/configmap.config.php
+                subPath: configmap.config.php
+          volumes:
+            - name: owncloud-data
+              {{- if .Values.persistence.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ include "owncloud.fullname" . }}
+              {{- end }}
+            - name: config-volume
+              secret:
+                secretName: owncloud-config
+{{- end -}}

@@ -95,7 +95,6 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.commentsManagerFactory | string | `""` | Define an alternative Comments Manager (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-an-alternative-comments-manager)). |
 | owncloud.configExtra | object | `{}` |  |
 | owncloud.corsAllowedDomains | string | `""` | Define global list of CORS domains (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-global-list-of-cors-domains)). |
-| owncloud.cronLog | string | `""` | Define logging if cron ran successfully(see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-logging-if-cron-ran-successfully)) |
 | owncloud.crondEnabled | string | `"true"` | Enable or disable the system cron service. Required for `.Values.owncloud.backgroundMode: "cron"`. |
 | owncloud.crondSchedule | string | `"*/1 * * * *"` | Cron schedule to run ownCloud background jobs. |
 | owncloud.csrfDisabled | string | `""` | Enable or disable ownCloud’s built-in CSRF protection mechanism (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-ownclouds-built-in-csrf-protection-mechanism)). |
