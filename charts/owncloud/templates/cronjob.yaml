@@ -1,3 +1,4 @@
+{{- if .Values.owncloud.crondEnabled -}}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -52,3 +53,4 @@ spec:
             - name: config-volume
               secret:
                 secretName: owncloud-config
+{{- end -}}
