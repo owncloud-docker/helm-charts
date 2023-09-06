@@ -1,6 +1,6 @@
 # ownCloud: Helm Charts
 
-[![Build Status](https://img.shields.io/drone/build/owncloud-docker/helm-charts?logo=drone&server=https%3A%2F%2Fdrone.owncloud.com)](https://drone.owncloud.com/owncloud-docker/helm-charts)
+[![Build Status](https://drone.owncloud.com/api/badges/owncloud-docker/helm-charts/status.svg)](https://drone.owncloud.com/owncloud-docker/helm-charts)
 [![GitHub contributors](https://img.shields.io/github/contributors/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/graphs/contributors)
 [![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/helm-charts)
 [![License: MIT](https://img.shields.io/github/license/owncloud-docker/helm-charts)](https://github.com/owncloud-docker/helm-charts/blob/main/LICENSE)
