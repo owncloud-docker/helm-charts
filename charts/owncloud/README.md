@@ -2,7 +2,7 @@
 
 ![Helm Version](https://img.shields.io/github/v/release/owncloud-docker/helm-charts?label=Version)
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat)
-![AppVersion: 10.12.2](https://img.shields.io/badge/AppVersion-10.12.2-informational?style=flat)
+![AppVersion: 10.13.0](https://img.shields.io/badge/AppVersion-10.13.0-informational?style=flat)
 
 ownCloud Server Helm chart
 
@@ -16,7 +16,7 @@ ownCloud Server Helm chart
 
 ## Requirements
 
-Kubernetes: `~1.23.0-0 || ~1.24.0-0 || ~1.25.0-0 || ~1.26.0-0 || ~1.27.0-0`
+Kubernetes: `~1.24.0-0 || ~1.25.0-0 || ~1.26.0-0 || ~1.27.0-0 || ~1.28.0-0`
 
 ## Usage
 
