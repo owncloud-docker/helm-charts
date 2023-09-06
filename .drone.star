@@ -4,11 +4,11 @@ config = {
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
     "kubernetes_versions": [
-        "1.23.0",
         "1.24.0",
         "1.25.0",
         "1.26.0",
         "1.27.0",
+        "1.28.0",
     ],
 }
 
@@ -178,7 +178,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "docker.io/jnorwood/helm-docs",
+                "image": "docker.io/jnorwood/helm-docs:v1.11.0",
                 "commands": [
                     "/usr/bin/helm-docs --badge-style=flat --template-files=ci/README.md.gotmpl --output-file=README.md",
                 ],
