@@ -178,7 +178,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "docker.io/jnorwood/helm-docs:1.11.0",
+                "image": "docker.io/jnorwood/helm-docs:v1.11.0",
                 "commands": [
                     "/usr/bin/helm-docs --badge-style=flat --template-files=ci/README.md.gotmpl --output-file=README.md",
                 ],
