@@ -3,7 +3,7 @@ apiVersion: v2
 name: owncloud
 version: 0.0.0-devel
 description: ownCloud Server Helm chart
-appVersion: 10.13.0
+appVersion: 10.13.1
 home: https://owncloud.com/
 keywords:
   - owncloud
