@@ -44,6 +44,18 @@ spec:
               - name: config-volume
                 mountPath: {{ .Values.owncloud.volume.config }}/configmap.config.php
                 subPath: configmap.config.php
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumes:
             - name: owncloud-data
               {{- if .Values.persistence.enabled }}
