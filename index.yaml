@@ -2,6 +2,31 @@ apiVersion: v1
 entries:
   owncloud:
   - apiVersion: v2
+    appVersion: 10.13.2
+    created: "2023-10-24T15:09:41.593055729Z"
+    description: ownCloud Server Helm chart
+    digest: 6ca6260c2485443b7495cecc3916c8f1cca430551d8853800f17d04fa03446ce
+    home: https://owncloud.com/
+    keywords:
+    - owncloud
+    - files
+    - collaboration
+    - sharing
+    kubeVersion: ~1.24.0-0 || ~1.25.0-0 || ~1.26.0-0 || ~1.27.0-0 || ~1.28.0-0
+    maintainers:
+    - email: devops@owncloud.com
+      name: ownCloud GmbH
+      url: https://owncloud.com
+    name: owncloud
+    sources:
+    - https://github.com/owncloud-docker/helm-charts
+    - https://github.com/owncloud-docker/server
+    - https://github.com/owncloud/core
+    type: application
+    urls:
+    - https://github.com/owncloud-docker/helm-charts/releases/download/v0.6.1/owncloud-0.6.1.tgz
+    version: 0.6.1
+  - apiVersion: v2
     appVersion: 10.13.0
     created: "2023-09-06T08:37:54.797446822Z"
     description: ownCloud Server Helm chart
@@ -176,4 +201,4 @@ entries:
     urls:
     - https://github.com/owncloud-docker/helm-charts/releases/download/v0.1.0/owncloud-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-06T08:37:54.797478603Z"
+generated: "2023-10-24T15:09:41.593196864Z"
