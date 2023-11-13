@@ -2,6 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>owncloud-ops/renovate-presets:docker"],
   "kubernetes": {
-    "fileMatch": ["ci/ci-values.ya?ml"]
-  }
+    "fileMatch": ["ci/ci-values\\.ya?ml"]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^charts/.+Chart\\.ya?ml$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>.*?))?\\nappVersion:\\s?\\\"?(?<currentValue>.*?)\"?\\s"
+      ]
+    }
+  ]
 }
