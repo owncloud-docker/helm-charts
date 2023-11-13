@@ -2,10 +2,8 @@ config = {
     "branches": [
         "main",
     ],
-    # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
+    # Keep 'kubernetesVersions' in sync with 'kubeVersion' in Chart.yaml
     "kubernetes_versions": [
-        "1.24.0",
-        "1.25.0",
         "1.26.0",
         "1.27.0",
         "1.28.0",
