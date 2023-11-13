@@ -11,13 +11,6 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>.*?))?\\nappVersion:\\s?\\\"?(?<currentValue>.*?)\"?\\s"
       ]
-    },
-    {
-      "fileMatch": ["^ci/k3d-drone\\.ya?ml"],
-      "matchStrings": [
-        "\\s+(?:image):\\s+\"?'?(?<depName>[^:\\s]+):(?<currentValue>[^\"'@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"?'?"
-      ],
-      "datasourceTemplate": "docker"
     }
   ]
 }
