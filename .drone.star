@@ -1,14 +1,6 @@
-config = {
-    "branches": [
-        "main",
-    ],
-    # Keep 'kubernetesVersions' in sync with 'kubeVersion' in Chart.yaml
-    "kubernetes_versions": [
-        "1.26.0",
-        "1.27.0",
-        "1.28.0",
-    ],
-}
+HELM_DOCS_IMAGE = "docker.io/jnorwood/helm-docs:v1.11.0"
+KUBECTL_IMAGE = "docker.io/bitnami/kubectl:1.25"
+K3D_IMAGE = "ghcr.io/k3d-io/k3d:5-dind"
 
 def main(ctx):
     pipeline_starlark = starlark(ctx)
@@ -16,6 +8,18 @@ def main(ctx):
 
     pipeline_docs = documentation(ctx)
     pipeline_docs[0]["depends_on"].append(pipeline_starlark[0]["name"])
+
+    config = {
+        "branches": [
+            "main",
+        ],
+        # Keep 'kubernetesVersions' in sync with 'kubeVersion' in Chart.yaml
+        "kubernetes_versions": [
+            "1.26.0",
+            "1.27.0",
+            "1.28.0",
+        ],
+    }
 
     pipeline_kubernetes = kubernetes(ctx, config)
     pipeline_kubernetes[0]["depends_on"].append(pipeline_docs[0]["name"])
@@ -121,7 +125,7 @@ def deployments(ctx):
         "services": [
             {
                 "name": "k3d",
-                "image": "ghcr.io/k3d-io/k3d:5-dind",
+                "image": K3D_IMAGE,
                 "privileged": True,
                 "commands": [
                     "nohup dockerd-entrypoint.sh &",
@@ -163,7 +167,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "docker.io/jnorwood/helm-docs:v1.11.0",
+                "image"HELM_DOCS_IMAGE,
                 "commands": [
                     "/usr/bin/helm-docs --badge-style=flat --template-files=ci/README.md.gotmpl --output-file=README.md",
                 ],
@@ -275,7 +279,7 @@ def release(ctx):
 def wait(config):
     return [{
         "name": "wait",
-        "image": "docker.io/bitnami/kubectl:1.25",
+        "image": KUBECTL_IMAGE,
         "user": "root",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
