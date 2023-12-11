@@ -115,6 +115,10 @@ owncloud:
   errorlogLocation: "/dev/stderr"
   # -- Define excluded directories (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-excluded-directories)).
   excludedDirectories: ""
+  # -- Additional volumes for the ownCloud container and cronjob.
+  extraVolumes: []
+  # -- Additional volume mounts for the ownCloud container and cronjob.
+  extraVolumeMounts: []
   # -- Enable transactional file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-transactional-file-locking)).
   filelockingEnabled: "true"
   # -- Define the TTL for file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-ttl-for-file-locking)).
