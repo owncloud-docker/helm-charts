@@ -120,6 +120,8 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.entrypointInitialized | string | `""` | Enable or disable loading of files from `/etc/entrypoint.d`. It is recommended to keep the default. |
 | owncloud.errorlogLocation | string | `"/dev/stderr"` | Output location for the Apache error log. |
 | owncloud.excludedDirectories | string | `""` | Define excluded directories (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-excluded-directories)). |
+| owncloud.extraVolumeMounts | list | `[]` | Additional volume mounts for the ownCloud container and cronjob. |
+| owncloud.extraVolumes | list | `[]` | Additional volumes for the ownCloud container and cronjob. |
 | owncloud.filelockingEnabled | string | `"true"` | Enable transactional file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-transactional-file-locking)). |
 | owncloud.filelockingTtl | string | `""` | Define the TTL for file locking (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#define-the-ttl-for-file-locking)). |
 | owncloud.filesExternalAllowNewLocal | string | `""` | Enable or disable the files_external local mount option (see [documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/server/config_sample_php_parameters.html#enable-or-disable-the-files_external-local-mount-option)). |

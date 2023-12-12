@@ -44,6 +44,9 @@ spec:
               - name: config-volume
                 mountPath: {{ .Values.owncloud.volume.config }}/configmap.config.php
                 subPath: configmap.config.php
+              {{- with .Values.owncloud.extraVolumeMounts }}
+                {{- toYaml . | nindent 14 }}
+              {{- end }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
@@ -65,4 +68,7 @@ spec:
             - name: config-volume
               secret:
                 secretName: owncloud-config
+            {{- with .Values.owncloud.extraVolumes }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
 {{- end -}}
