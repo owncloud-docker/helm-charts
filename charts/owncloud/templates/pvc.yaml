@@ -14,7 +14,7 @@ spec:
     path: {{ .Values.persistence.owncloud.nfs.path }}
 {{end}}
 {{- if .Values.persistence.enabled -}}
-{{- if not .Values.persistence.existingClaim -}}
+{{- if not .Values.persistence.owncloud.existingClaim -}}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

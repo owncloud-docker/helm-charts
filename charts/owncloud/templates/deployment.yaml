@@ -113,8 +113,8 @@ spec:
         - name: owncloud-data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-          {{- if .Values.persistence.existingClaim }}
-            claimName: {{ .Values.persistence.existingClaim }}
+          {{- if .Values.persistence.owncloud.existingClaim }}
+            claimName: {{ .Values.persistence.owncloud.existingClaim }}
           {{- else }}
             claimName: {{ include "owncloud.fullname" . }}
           {{- end }}
