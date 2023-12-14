@@ -405,6 +405,8 @@ persistence:
   # -- Enables persistence.
   enabled: true
   owncloud:
+    # existingClaim will, if set, forgo the creation of a PVC in favour of mounting an existing one with this name.
+    existingClaim: ~
     accessMode:
       - ReadWriteOnce
     size: 20Gi

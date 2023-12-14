@@ -255,6 +255,7 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | owncloud.volume.root | string | `"/mnt/data"` | Base data directory for ownCloud. |
 | owncloud.volume.sessions | string | `{{ .Values.owncloud.volume.root }}/sessions` | Base directory to store session files. Only used if `OWNCLOUD_SESSION_SAVE_HANDLER=file`. |
 | persistence.enabled | bool | `true` | Enables persistence. |
+| persistence.existingClaim | string | `~` | Disables creation of PVC in favour of using existing PVC by name defined in this value. |
 | persistence.owncloud.accessMode[0] | string | `"ReadWriteOnce"` |  |
 | persistence.owncloud.annotations | object | `{"helm.sh/resource-policy":"keep"}` | Set annotations on the owncloud PVC. |
 | persistence.owncloud.nfs | object | `{}` |  |
