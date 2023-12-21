@@ -1,4 +1,4 @@
-HELM_DOCS_IMAGE = "docker.io/jnorwood/helm-docs:v1.11.3"
+HELM_DOCS_IMAGE = "docker.io/jnorwood/helm-docs:v1.12.0"
 KUBECTL_IMAGE = "docker.io/bitnami/kubectl:1.28"
 K3D_IMAGE = "ghcr.io/k3d-io/k3d:5-dind"
 
