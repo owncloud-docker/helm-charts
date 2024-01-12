@@ -164,7 +164,7 @@ data:
   OWNCLOUD_SINGLEUSER: {{ .Values.owncloud.singleuser | quote }}
   OWNCLOUD_SKELETON_DIRECTORY: {{ .Values.owncloud.skeletonDirectory | quote }}
   OWNCLOUD_SKIP_CHMOD: {{ .Values.owncloud.skipChmod | quote }}
-  OWNCLOUD_SKIP_CHOWN: "true"
+  OWNCLOUD_SKIP_CHOWN: {{ .Values.owncloud.skipChown | quote }}
   OWNCLOUD_SMB_LOGGING_ENABLE: {{ .Values.owncloud.smbLoggingEnable | quote }}
   OWNCLOUD_SQLITE_JOURNAL_MODE: {{ .Values.owncloud.sqliteJournalMode | quote }}
   OWNCLOUD_SUB_URL: {{ .Values.owncloud.subUrl | quote }}
