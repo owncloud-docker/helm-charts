@@ -447,7 +447,7 @@ ingress:
   enabled: false
   # -- Ingress class to use.
   # Uses the default ingress class if not set.
-  ingressClassName: ""
+  className: ""
   # -- Ingress annotations.
   annotations: {}
   # -- Labels for the ingress.
