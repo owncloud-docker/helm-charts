@@ -67,8 +67,8 @@ A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an 
 | image.tag | string | The `appVersion` of the Chart. | Image tag. |
 | imagePullSecrets | object | `{}` | List of references to secrets in the same namespace to use for pulling images from a private registry. |
 | ingress.annotations | object | `{}` | Ingress annotations. |
+| ingress.className | string | `""` | Ingress class to use. Uses the default ingress class if not set. |
 | ingress.enabled | bool | `false` | Enables the Ingress. |
-| ingress.ingressClassName | string | `""` | Ingress class to use. Uses the default ingress class if not set. |
 | ingress.labels | object | `{}` | Labels for the ingress. |
 | ingress.tls | list | `[]` | Ingress TLS configuration. |
 | initResources | object | `{}` | Resources to apply to all init containers. |
