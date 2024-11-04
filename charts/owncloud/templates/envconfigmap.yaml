@@ -180,8 +180,8 @@ data:
   OWNCLOUD_USER_SEARCH_MIN_LENGTH: {{ .Values.owncloud.userSearchMinLength | quote }}
   OWNCLOUD_VERSIONS_RETENTION_OBLIGATION: {{ .Values.owncloud.versionsRetentionObligation | quote }}
   OWNCLOUD_VERSION_HIDE: {{ .Values.owncloud.versionHide | quote }}
-  OWNCLOUD_VOLUME_APPS: {{ .Values.owncloud.volumeApps | quote }}
-  OWNCLOUD_VOLUME_CONFIG: {{ .Values.owncloud.volumeConfig | quote }}
-  OWNCLOUD_VOLUME_FILES: {{ .Values.owncloud.volumeFiles | quote }}
-  OWNCLOUD_VOLUME_ROOT: {{ .Values.owncloud.volumeRoot | quote }}
-  OWNCLOUD_VOLUME_SESSIONS: {{ .Values.owncloud.volumeSessions | quote }}
+  OWNCLOUD_VOLUME_APPS: {{ .Values.owncloud.volume.apps | quote }}
+  OWNCLOUD_VOLUME_CONFIG: {{ .Values.owncloud.volume.config | quote }}
+  OWNCLOUD_VOLUME_FILES: {{ .Values.owncloud.volume.files | quote }}
+  OWNCLOUD_VOLUME_ROOT: {{ .Values.owncloud.volume.root | quote }}
+  OWNCLOUD_VOLUME_SESSIONS: {{ .Values.owncloud.volume.sessions | quote }}
