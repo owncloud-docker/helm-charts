@@ -12,6 +12,13 @@ spec:
   nfs:
     server: {{ .Values.persistence.owncloud.nfs.server }}
     path: {{ .Values.persistence.owncloud.nfs.path }}
+  {{- if .Values.persistence.owncloud.storageClassName }}
+  {{- if (eq "-" .Values.persistence.owncloud.storageClassName) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.persistence.owncloud.storageClassName }}
+  {{- end }}
+  {{- end }}
 {{end}}
 {{- if .Values.persistence.enabled -}}
 ---
