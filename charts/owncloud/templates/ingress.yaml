@@ -1,32 +1,29 @@
-{{- if .Values.ingress.enabled -}}
----
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ template "owncloud.fullname" . }}
+  name: {{ include "owncloud.fullname" . }}
   labels:
     {{- include "owncloud.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
-  {{- with .Values.ingress.className }}
-  ingressClassName: {{ . }}
-  {{- end }}
-  {{- with .Values.ingress.tls }}
-  tls:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: "{{ .Values.owncloud.domain }}"
+    - host: {{ .Values.ingress.hostname }}
       http:
         paths:
-          - path: /
+          - path: {{ .Values.owncloud.subUrl }}
             pathType: Prefix
             backend:
               service:
-                name: {{ template "owncloud.fullname" . }}
+                name: {{ include "owncloud.fullname" . }}
                 port:
                   number: {{ .Values.service.port }}
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.hostname }}
+      secretName: {{ .Values.ingress.tlsSecret }}
+  {{- end }}
 {{- end }}
