@@ -16,7 +16,7 @@ ownCloud Server Helm chart
 
 ## Requirements
 
-Kubernetes: `~1.27.0-0 || ~1.28.0-0 || ~1.29.0-0`
+Kubernetes: `~1.27.0-0 || ~1.28.0-0 || ~1.29.0-0 || ~1.30.0-0 || ~1.31.0-0`
 
 ## Usage
 
