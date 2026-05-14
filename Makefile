@@ -1,5 +1,5 @@
 # renovate: datasource=github-releases depName=norwoodj/helm-docs
-HELM_DOCS_PACKAGE_VERSION := v1.13.1
+HELM_DOCS_PACKAGE_VERSION := v1.14.2
 KUBE_LINTER_PACKAGE_VERSION := latest
 KUBECONFORM_PACKAGE_VERSION := latest
 
