@@ -2,7 +2,7 @@
 apiVersion: v2
 name: owncloud
 version: 0.0.0-devel
-description: ownCloud Server Helm chart
+description: ownCloud Classic Helm chart
 # renovate: datasource=docker depName=owncloud/server
 appVersion: 10.16.2
 home: https://owncloud.com/

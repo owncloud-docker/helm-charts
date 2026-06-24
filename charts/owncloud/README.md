@@ -4,7 +4,7 @@
 ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat)
 ![AppVersion: 10.15.1](https://img.shields.io/badge/AppVersion-10.15.1-informational?style=flat)
 
-ownCloud Server Helm chart
+ownCloud Classic Helm chart
 
 **Homepage:** <https://owncloud.com/>
 
